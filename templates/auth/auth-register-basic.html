@@ -134,7 +134,7 @@
           <h4 class="mb-1">Shopping starts here 🚀</h4>
           <p class="mb-5">Make your app management easy and fun!</p>
           {% for message in messages %}
-            <p style="color: {% if message.level == 40 %} red {% endif %}>{{ message }}</p>
+            <p style="color:red ;">{{ message}}</p>
           {% endfor %}
               
           <form id="formAuthentication" class="mb-5" action="{% url 'user-register' %}" method="POST">
