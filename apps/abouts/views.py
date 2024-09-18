@@ -1,4 +1,12 @@
 from django.shortcuts import render
 
+from apps.abouts.models import About
+
+
 def about(request):
-    return render(request, 'about.html',{'page':'about'})
+    context = {
+        'about': About.objects.first(),
+        'page': 'about'
+    }
+    return render(request, 'about.html',context)
+

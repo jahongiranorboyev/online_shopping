@@ -1,4 +1,3 @@
-
 import os
 
 from pathlib import Path
@@ -31,13 +30,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # This place for the third party packages
+    'django_ckeditor_5',
+
     # This place for My apps start
     'apps.generals',
     'apps.categories',
     'apps.main',
     'apps.sellers',
+    'apps.abouts',
 
-    # end My apps place
+    # This place for debug-toolbar
     'debug_toolbar',
 ]
 
@@ -56,11 +59,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
-
-
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -89,7 +88,7 @@ LANGUAGES = (
     ('ru', 'Russian'),
     ('uz', 'Uzbek'),
 )
-LANGS=map(lambda item:item[0] , LANGUAGES)
+LANGS = map(lambda item: item[0], LANGUAGES)
 LOCALE_PATHS = [
     BASE_DIR / 'translation',
 ]

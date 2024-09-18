@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-14 08:21+0000\n"
+"POT-Creation-Date: 2024-09-18 08:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,12 +20,32 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: apps/sellers/models.py:9
+#: apps/sellers/models.py:10
 msgid "Male"
 msgstr ""
 
-#: apps/sellers/models.py:10
+#: apps/sellers/models.py:11
 msgid "Female"
+msgstr ""
+
+#: apps/sellers/models.py:13
+msgid "rating"
+msgstr ""
+
+#: apps/sellers/models.py:15
+msgid "Gender"
+msgstr ""
+
+#: apps/sellers/models.py:33
+msgid "name"
+msgstr ""
+
+#: apps/sellers/models.py:34
+msgid "description"
+msgstr ""
+
+#: apps/sellers/models.py:35
+msgid "language"
 msgstr ""
 
 #: venv/lib/python3.10/site-packages/IPython/core/tests/test_completer.py:434
@@ -1317,4 +1337,12 @@ msgstr ""
 
 #: venv/lib/python3.10/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: venv/lib/python3.10/site-packages/django_ckeditor_5/views.py:77
+msgid "Page not found."
+msgstr ""
+
+#: venv/lib/python3.10/site-packages/django_ckeditor_5/widgets.py:43
+msgid "Check the correct settings.CKEDITOR_5_CONFIGS "
 msgstr ""

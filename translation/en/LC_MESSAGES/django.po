@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-14 10:36+0000\n"
+"POT-Creation-Date: 2024-09-18 08:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,15 +34,15 @@ msgstr ""
 msgid "Gender"
 msgstr ""
 
-#: apps/sellers/models.py:32
+#: apps/sellers/models.py:33
 msgid "name"
 msgstr ""
 
-#: apps/sellers/models.py:33
+#: apps/sellers/models.py:34
 msgid "description"
 msgstr ""
 
-#: apps/sellers/models.py:34
+#: apps/sellers/models.py:35
 msgid "language"
 msgstr ""
 
@@ -1335,4 +1335,12 @@ msgstr ""
 
 #: venv/lib/python3.10/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: venv/lib/python3.10/site-packages/django_ckeditor_5/views.py:77
+msgid "Page not found."
+msgstr ""
+
+#: venv/lib/python3.10/site-packages/django_ckeditor_5/widgets.py:43
+msgid "Check the correct settings.CKEDITOR_5_CONFIGS "
 msgstr ""

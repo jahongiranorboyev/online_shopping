@@ -36,6 +36,9 @@ urlpatterns = [
     #===========AUTH URLS  ============
     path('auth/', include('apps.authentication.urls')),
 
+    # =========== CKEDITOR URLS  ============
+    path("__ckeditor5/", include('django_ckeditor_5.urls')),
+
 
     path('__debug__/', include('debug_toolbar.urls')),
     path('__test/', test, name='test-page'),
