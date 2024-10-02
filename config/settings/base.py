@@ -1,6 +1,8 @@
 import os
 
 from pathlib import Path
+
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -39,6 +41,11 @@ INSTALLED_APPS = [
     'apps.main',
     'apps.sellers',
     'apps.abouts',
+    'apps.authentication',
+    'apps.products',
+    'apps.product_comments',
+    'apps.product_ratings',
+
 
     # This place for debug-toolbar
     'debug_toolbar',
@@ -82,20 +89,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en'
-LANGUAGES = (
-    ('en', 'English'),
-    ('ru', 'Russian'),
-    ('uz', 'Uzbek'),
-)
-LANGS = map(lambda item: item[0], LANGUAGES)
-LOCALE_PATHS = [
-    BASE_DIR / 'translation',
-]
 
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
+TIME_ZONE = 'Asia/Tashkent'
 
 USE_TZ = True
 
@@ -104,9 +99,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

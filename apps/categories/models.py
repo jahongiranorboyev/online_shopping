@@ -12,7 +12,6 @@ class Category(models.Model):
                                related_query_name='category'
                                )
 
-
     def clean(self):
         try:
             if not self.pk and self.parent.parent.parent:
@@ -27,7 +26,6 @@ class Category(models.Model):
     #         return self.name
     #     elif self.parent.parent is not None and self.children is None:
     #         return self.name
-
 
     def __str__(self):
         return self.name

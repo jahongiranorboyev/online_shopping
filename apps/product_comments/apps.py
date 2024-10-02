@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ProductComementsConfig(AppConfig):
+class ProductCommentsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'apps.product_comments'
