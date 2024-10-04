@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-18 08:30+0000\n"
+"POT-Creation-Date: 2024-10-04 14:48+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,6 +47,72 @@ msgstr ""
 #: apps/sellers/models.py:35
 msgid "language"
 msgstr ""
+
+#: config/settings/translation.py:15
+msgid "Uzbek"
+msgstr ""
+
+#: config/settings/translation.py:16
+msgid "English"
+msgstr ""
+
+#: config/settings/translation.py:17
+msgid "Russian"
+msgstr ""
+
+#: templates/bases/basic.html:37
+msgid "About"
+msgstr "Oколо"
+
+#: templates/bases/basic.html:38 templates/bases/basic.html:194
+msgid "Contact"
+msgstr "Контакт"
+
+#: templates/bases/basic.html:39
+msgid "Help"
+msgstr "Помощь"
+
+#: templates/bases/basic.html:55
+msgid "Log out"
+msgstr "выйти"
+
+#: templates/bases/basic.html:59
+msgid "Sign in"
+msgstr "Войти"
+
+#: templates/bases/basic.html:63
+msgid "Sign up"
+msgstr "Зарегистрироваться"
+
+#: templates/bases/basic.html:113
+msgid "Search for products"
+msgstr "Поиск"
+
+#: templates/bases/basic.html:135
+msgid "Categories"
+msgstr "Категории"
+
+#: templates/bases/basic.html:177
+msgid "Home"
+msgstr "Основной"
+
+#: templates/bases/basic.html:179
+msgid "Shop"
+msgstr "Магазин"
+
+#: templates/bases/basic.html:183
+msgid "Pages"
+msgstr "Страницы"
+
+#: templates/bases/basic.html:189
+msgid "Checkout"
+msgstr ""
+
+#: templates/bases/basic.html:196
+#, fuzzy
+#| msgid "About US"
+msgid "About Us"
+msgstr "Oколо"
 
 #: venv/lib/python3.10/site-packages/IPython/core/tests/test_completer.py:434
 msgid "open('foo"
@@ -1345,4 +1411,8 @@ msgstr ""
 
 #: venv/lib/python3.10/site-packages/django_ckeditor_5/widgets.py:43
 msgid "Check the correct settings.CKEDITOR_5_CONFIGS "
+msgstr ""
+
+#: venv/lib/python3.10/site-packages/modeltranslation/widgets.py:32
+msgid "None"
 msgstr ""

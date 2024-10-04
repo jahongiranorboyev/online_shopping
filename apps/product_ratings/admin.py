@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from apps.product_ratings.models import ProductRating
+
+
+@admin.register(ProductRating)
+class ProductRatingAdmin(admin.ModelAdmin):
+    pass

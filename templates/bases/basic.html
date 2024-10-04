@@ -1,4 +1,7 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as current_language %}
+{% get_available_languages as available_languages %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,9 +36,9 @@
     <div class="row bg-secondary py-1 px-xl-5">
         <div class="col-lg-6 d-none d-lg-block">
             <div class="d-inline-flex align-items-center h-100">
-                <a class="text-body mr-3" href="{% url 'about:about-page' %}">About</a>
-                <a class="text-body mr-3" href="">Contact</a>
-                <a class="text-body mr-3" href="">Help</a>
+                <a class="text-body mr-3" href="{% url 'about:about-page' %}">{% translate 'About' %}</a>
+                <a class="text-body mr-3" href="">{% translate 'Contact' %}</a>
+                <a class="text-body mr-3" href="">{% translate 'Help' %}</a>
             </div>
         </div>
         <div class="col-lg-6 text-center text-lg-right">
@@ -51,15 +54,15 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         {% if user.is_authenticated %}
                             <a href="{% url 'logout-page' %}">
-                                <button class="dropdown-item" type="button">Log out</button>
+                                <button class="dropdown-item" type="button">{% translate 'Log out' %}</button>
                             </a>
                         {% else %}
                             <a href="{% url 'login-page' %}">
-                                <button class="dropdown-item" type="button">Sign in</button>
+                                <button class="dropdown-item" type="button">{% translate 'Sign in' %}</button>
                             </a>
 
                             <a href="{% url 'register-page' %}">
-                                <button class="dropdown-item" type="button">Sign up</button>
+                                <button class="dropdown-item" type="button">{% translate 'Sign up' %}</button>
                             </a>
                             
                         {% endif %}
@@ -76,12 +79,14 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN
-                    </button>
+                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{ current_language.upper  }}
+                    </button> 
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">FR</button>
-                        <button class="dropdown-item" type="button">AR</button>
-                        <button class="dropdown-item" type="button">RU</button>
+                        {% for available_language in available_languages %}
+                            {% if available_language.0 != current_language%}
+                            	 <a style="color: inherit " href="{% url 'set-lang' lang=available_language.0 %}"><button class="dropdown-item" type="button">{{ available_language.0.upper }}</button></a>
+                            {% endif %} 
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -109,7 +114,7 @@
         <div class="col-lg-4 col-6 text-left">
             <form action="">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for products">
+                    <input type="text" class="form-control" placeholder="{% translate 'Search for products' %}">
                     <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -131,7 +136,7 @@
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse"
                href="#navbar-vertical" style="height: 65px; padding: 0 30px;">
-                <h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>Categories</h6>
+                <h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>{% translate 'Categories' %}</h6>
                 <i class="fa fa-angle-down text-dark"></i>
             </a>
             <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
@@ -173,28 +178,26 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
                         <a href="{% url 'home-page' %}"
-                           class="nav-item nav-link {% if page == 'home' %} active {% endif %} ">Home</a>
+                           class="nav-item nav-link {% if page == 'home' %} active {% endif %} ">{% translate 'Home' %}</a>
                         <a href="{% url 'products:product_list' %}"
-                           class="nav-item nav-link {% if page == 'shop' %} active {% endif %}">Shop</a>
+                           class="nav-item nav-link {% if page == 'shop' %} active {% endif %}">{% translate 'Shop' %}</a>
 
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle {% if page == 'pages' %} active {% endif %}"
-                               data-toggle="dropdown">Pages <i class="fa fa-angle-down mt-1"></i></a>
+                               data-toggle="dropdown">{% translate 'Pages' %} <i class="fa fa-angle-down mt-1"></i></a>
                             <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
                                 <a href="{% url 'cart-page' %}"
                                    class="dropdown-item {% if page == 'shopping_card' %} active {% endif %}">Shopping
                                     Cart</a>
                                 <a href="{% url 'checkout-page' %}"
-                                   class="dropdown-item {% if page == 'checkout' %} active {% endif %}">Checkout</a>
+                                   class="dropdown-item {% if page == 'checkout' %} active {% endif %}">{% translate 'Checkout' %}</a>
 
                             </div>
                         </div>
                         <a href="{% url 'contact-page' %}"
-                           class="nav-item nav-link {% if page == 'contact' %} active {% endif %}">Contact</a>
+                           class="nav-item nav-link {% if page == 'contact' %} active {% endif %}">{% translate 'Contact' %}</a>
                         <a href="{% url 'about:about-page' %}"
-                           class="nav-item nav-link {% if page == 'about' %} active {% endif %} ">About US</a>
-                        {#                            <a href="{% url '' %}" class="nav-item nav-link">About us</a>#}
-
+                           class="nav-item nav-link {% if page == 'about' %} active {% endif %} ">{% translate 'About Us' %}</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                         <a class="btn px-0" href="{% url 'wishlist-page' %}">

@@ -19,6 +19,7 @@ class Product(models.Model):
     avg_rating = models.DecimalField(max_digits=10, decimal_places=1, default=0, editable=False)
     comments_count = models.DecimalField(max_digits=10, decimal_places=1, default=0, editable=False)
     price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    old_price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     currency = models.CharField(choices=CURRENCY_CHOICES, default='USD', max_length=5)
     short_description = models.CharField(max_length=255)
     long_description = models.TextField()

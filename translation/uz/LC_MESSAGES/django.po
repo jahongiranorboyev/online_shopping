@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-18 08:30+0000\n"
+"POT-Creation-Date: 2024-10-04 14:47+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,72 @@ msgstr ""
 #: apps/sellers/models.py:35
 msgid "language"
 msgstr ""
+
+#: config/settings/translation.py:15
+msgid "Uzbek"
+msgstr ""
+
+#: config/settings/translation.py:16
+msgid "English"
+msgstr ""
+
+#: config/settings/translation.py:17
+msgid "Russian"
+msgstr ""
+
+#: templates/bases/basic.html:37
+msgid "About"
+msgstr "Haqida"
+
+#: templates/bases/basic.html:38 templates/bases/basic.html:194
+msgid "Contact"
+msgstr "Boglanish uchun"
+
+#: templates/bases/basic.html:39
+msgid "Help"
+msgstr "Yordam"
+
+#: templates/bases/basic.html:55
+msgid "Log out"
+msgstr "Chiqish"
+
+#: templates/bases/basic.html:59
+msgid "Sign in"
+msgstr "Tizimga kirish"
+
+#: templates/bases/basic.html:63
+msgid "Sign up"
+msgstr "Ro'yxatdan o'tish"
+
+#: templates/bases/basic.html:113
+msgid "Search for products"
+msgstr "Qidiruv"
+
+#: templates/bases/basic.html:135
+msgid "Categories"
+msgstr "Kategoreyilar"
+
+#: templates/bases/basic.html:177
+msgid "Home"
+msgstr "Asosiy"
+
+#: templates/bases/basic.html:179
+msgid "Shop"
+msgstr "Do'kon"
+
+#: templates/bases/basic.html:183
+msgid "Pages"
+msgstr "Qo'shimchalar"
+
+#: templates/bases/basic.html:189
+msgid "Checkout"
+msgstr ""
+
+#: templates/bases/basic.html:196
+#, fuzzy
+#| msgid "About"
+msgid "About Us"
+msgstr "Biz haqimizda"
 
 #: venv/lib/python3.10/site-packages/IPython/core/tests/test_completer.py:434
 msgid "open('foo"
@@ -1343,4 +1409,8 @@ msgstr ""
 
 #: venv/lib/python3.10/site-packages/django_ckeditor_5/widgets.py:43
 msgid "Check the correct settings.CKEDITOR_5_CONFIGS "
+msgstr ""
+
+#: venv/lib/python3.10/site-packages/modeltranslation/widgets.py:32
+msgid "None"
 msgstr ""
