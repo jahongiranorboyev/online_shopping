@@ -11,9 +11,9 @@ def wishlist(request: WSGIRequest):
     }
     return render(request=request, template_name='wishlist.html', context=context)
 
-
+@login_required(login_url='login-page')
 def wishlist_create(request: WSGIRequest, product_id: int):
-    Wishlist.objects.create(product_id=product_id, user=request.user if request.user.is_authenticated else None)
+    Wishlist.objects.create(product_id=product_id, user=request.user)
     return redirect('products:product_list')
 
 

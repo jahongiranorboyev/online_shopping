@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect
 
+from apps.wishlist.models import Wishlist
+
 
 def home(request):
-    return render(request, template_name='index.html')
+    context = {
+        'wishlist': Wishlist.objects.all(),
+    }
+    return render(request, template_name='index.html',context=context)
 
 
 def detail(request):
