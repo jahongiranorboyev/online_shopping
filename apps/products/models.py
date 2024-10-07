@@ -1,26 +1,47 @@
-from itertools import count
-
 from django.db import models
 
 from apps.categories.models import Category
-from apps.product_comments.models import ProductComment
-from apps.product_ratings.models import ProductRating
-
-CURRENCY_CHOICES = (
-    ('USD', 'USD'),
-    ('EUR', 'EUR'),
-    ('JPY', 'JPY'),
-    ("UZS", "UZS"),
-)
+from apps.comments.models import ProductComment
+from apps.ratings.models import ProductRating
 
 
 class Product(models.Model):
+    class Currency(models.TextChoices):
+        USD = 'USD', 'United States Dollar'
+        EUR = 'EUR', 'Euro'
+        JPY = 'JPY', 'Japanese Yen'
+        GBP = 'GBP', 'British Pound Sterling'
+        AUD = 'AUD', 'Australian Dollar'
+        CAD = 'CAD', 'Canadian Dollar'
+        CHF = 'CHF', 'Swiss Franc'
+        CNY = 'CNY', 'Chinese Yuan'
+        SEK = 'SEK', 'Swedish Krona'
+        NZD = 'NZD', 'New Zealand Dollar'
+
     title = models.CharField(max_length=255)
-    avg_rating = models.DecimalField(max_digits=10, decimal_places=1, default=0, editable=False)
-    comments_count = models.DecimalField(max_digits=10, decimal_places=1, default=0, editable=False)
-    price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    avg_rating = models.DecimalField(
+        max_digits=10,
+        decimal_places=1,
+        default=0,
+        editable=False
+    )
+    comments_count = models.DecimalField(
+        max_digits=10,
+        decimal_places=1,
+        default=0,
+        editable=False
+    )
+    price = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0
+    )
     old_price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    currency = models.CharField(choices=CURRENCY_CHOICES, default='USD', max_length=5)
+    currency = models.CharField(
+        choices=Currency.choices,
+        default=Currency.USD,
+        max_length=5
+    )
     short_description = models.CharField(max_length=255)
     long_description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -38,8 +59,9 @@ class Product(models.Model):
         self.save()
 
     def set_comments_rating(self):
-        self.comments_count  = ProductComment.objects.filter(product_id=self.pk).count()
+        self.comments_count = ProductComment.objects.filter(product_id=self.pk).count()
         self.save()
+
     def __str__(self):
         return self.title
 

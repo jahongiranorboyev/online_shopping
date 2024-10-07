@@ -37,15 +37,16 @@ INSTALLED_APPS = [
     'django_ckeditor_5',
 
     # This place for My apps start
-    'apps.generals',
+    'apps.general',
     'apps.categories',
     'apps.main',
     'apps.sellers',
     'apps.abouts',
     'apps.authentication',
     'apps.products',
-    'apps.product_comments',
-    'apps.product_ratings',
+    'apps.comments',
+    'apps.ratings',
+    'apps.wishlist',
 
 
     # This place for debug-toolbar

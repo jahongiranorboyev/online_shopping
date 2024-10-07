@@ -4,13 +4,14 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    parent = models.ForeignKey(to='self',
-                               null=True,
-                               blank=True,
-                               related_name='children',
-                               on_delete=models.CASCADE,
-                               related_query_name='category'
-                               )
+    parent = models.ForeignKey(
+    to='self',
+    null=True,
+    blank=True,
+    related_name='children',
+    on_delete=models.CASCADE,
+    related_query_name='category'
+                           )
 
     def clean(self):
         try:

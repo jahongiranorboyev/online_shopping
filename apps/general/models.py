@@ -10,7 +10,7 @@ class General(models.Model):
 
     location = models.URLField()
     address = models.CharField(max_length=100, null=True, blank=True)
-    logo = models.ImageField(upload_to="generals/logo/image/%Y/%m/%d/")
+    logo = models.ImageField(upload_to="general/logo/image/%Y/%m/%d/")
 
     def clean(self):
         if self.pk and General.objects.exists():

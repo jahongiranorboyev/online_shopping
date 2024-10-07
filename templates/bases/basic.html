@@ -114,7 +114,7 @@
         <div class="col-lg-4 col-6 text-left">
             <form action="">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="{% translate 'Search for products' %}">
+                    <input type="text" class="form-control" placeholder="{% translate 'Search for products' %}" value="{{ search_product }}">
                     <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -197,10 +197,10 @@
                         <a href="{% url 'contact-page' %}"
                            class="nav-item nav-link {% if page == 'contact' %} active {% endif %}">{% translate 'Contact' %}</a>
                         <a href="{% url 'about:about-page' %}"
-                           class="nav-item nav-link {% if page == 'about' %} active {% endif %} ">{% translate 'About Us' %}</a>
+                           class="nav-item nav-link {% if page == 'about' %} active {% endif %} ">{% translate 'About' %}</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                        <a class="btn px-0" href="{% url 'wishlist-page' %}">
+                        <a class="btn px-0" href="{% url 'wishlists:wishlist' %}">
                             <span class="badge text-secondary border border-secondary rounded-circle"
                                   style="padding-bottom: 2px;">0</span>
                         </a>

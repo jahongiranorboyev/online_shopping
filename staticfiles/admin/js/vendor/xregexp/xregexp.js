@@ -775,8 +775,8 @@ function isQuantifierNext(pattern, pos, flags) {
   var inlineCommentPattern = '\\(\\?#[^)]*\\)';
   var lineCommentPattern = '#[^#\\n]*';
   var quantifierPattern = '[?*+]|{\\d+(?:,\\d*)?}';
-  var regex = (0, _indexOf["default"])(flags).call(flags, 'x') !== -1 ? // Ignore any leading whitespace, line product_comments, and inline product_comments
-  /^(?:\s|#[^#\n]*|\(\?#[^)]*\))*(?:[?*+]|{\d+(?:,\d*)?})/ : // Ignore any leading inline product_comments
+  var regex = (0, _indexOf["default"])(flags).call(flags, 'x') !== -1 ? // Ignore any leading whitespace, line comments, and inline comments
+  /^(?:\s|#[^#\n]*|\(\?#[^)]*\))*(?:[?*+]|{\d+(?:,\d*)?})/ : // Ignore any leading inline comments
   /^(?:\(\?#[^)]*\))*(?:[?*+]|{\d+(?:,\d*)?})/;
   return regex.test((0, _slice["default"])(pattern).call(pattern, pos));
 }
@@ -1003,7 +1003,7 @@ function setNamespacing(on) {
  *   Additional XRegExp flags:
  *     - `n` - named capture only
  *     - `s` - dot matches all (aka singleline) - works even when not natively supported
- *     - `x` - free-spacing and line product_comments (aka extended)
+ *     - `x` - free-spacing and line comments (aka extended)
  *     - `A` - 21-bit Unicode properties (aka astral) - requires the Unicode Base addon
  *   Flags cannot be provided when constructing one `RegExp` from another.
  * @returns {RegExp} Extended regular expression object.
@@ -2325,7 +2325,7 @@ XRegExp.addToken(/\\u{([\dA-Fa-f]+)}/, function (match, scope, flags) {
   leadChar: '\\'
 });
 /*
- * Comment pattern: `(?# )`. Inline product_comments are an alternative to the line product_comments allowed in
+ * Comment pattern: `(?# )`. Inline comments are an alternative to the line comments allowed in
  * free-spacing mode (flag x).
  */
 
@@ -2333,7 +2333,7 @@ XRegExp.addToken(/\(\?#[^)]*\)/, getContextualTokenSeparator, {
   leadChar: '('
 });
 /*
- * Whitespace and line product_comments, in free-spacing mode (aka extended mode, flag x) only.
+ * Whitespace and line comments, in free-spacing mode (aka extended mode, flag x) only.
  */
 
 XRegExp.addToken(/\s+|#[^\n]*\n?/, getContextualTokenSeparator, {

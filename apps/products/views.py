@@ -15,3 +15,8 @@ def product_list(request: WSGIRequest) -> HttpResponse:
         'page_obj': page_obj,
     }
     return render(request=request, template_name='shop.html', context=context)
+def search_product(request: WSGIRequest) -> HttpResponse:
+    name = request.GET.get('name')
+    print(name)
+    request.session['search'] = name
+    Product.objects.get(title=name)

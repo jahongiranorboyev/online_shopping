@@ -86,7 +86,7 @@ msgstr "Зарегистрироваться"
 
 #: templates/bases/basic.html:113
 msgid "Search for products"
-msgstr "Поиск"
+msgstr "Поискa"
 
 #: templates/bases/basic.html:135
 msgid "Categories"
@@ -108,11 +108,7 @@ msgstr "Страницы"
 msgid "Checkout"
 msgstr ""
 
-#: templates/bases/basic.html:196
-#, fuzzy
-#| msgid "About US"
-msgid "About Us"
-msgstr "Oколо"
+
 
 #: venv/lib/python3.10/site-packages/IPython/core/tests/test_completer.py:434
 msgid "open('foo"

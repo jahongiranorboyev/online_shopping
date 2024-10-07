@@ -106,11 +106,7 @@ msgstr "Qo'shimchalar"
 msgid "Checkout"
 msgstr ""
 
-#: templates/bases/basic.html:196
-#, fuzzy
-#| msgid "About"
-msgid "About Us"
-msgstr "Biz haqimizda"
+
 
 #: venv/lib/python3.10/site-packages/IPython/core/tests/test_completer.py:434
 msgid "open('foo"

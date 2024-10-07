@@ -1,11 +1,12 @@
-from apps.main import views
 from django.contrib import admin
 from django.urls import path, include
-from apps.categories.views import category
 from django.conf.urls.static import static
-from apps.generals.views import set_language
 from django.conf.urls.i18n import i18n_patterns
 
+from apps.main import views
+from apps.general.views import set_language
+from apps.categories.views import category
+from apps.products.views import search_product
 from config import settings
 
 urlpatterns = [
@@ -28,17 +29,18 @@ urlpatterns += i18n_patterns(
     path('cart/', views.cart, name='cart-page'),
     path('products/', include('apps.products.urls', namespace='products')),
     path('category/', category, name='category-page'),
-    path('wishlist/', views.wishlist, name='wishlist-page'),
-
+    path('search/', search_product, name='search_name'),
 
     # =======ABOUT URLS =======
     path('about/', include('apps.abouts.urls', namespace='about')),
+
+    # ======= WISHLIST URLS =======
+    path('wishlist/', include('apps.wishlist.urls', namespace='wishlists')),
 
     # ===========AUTH URLS  ============
     path('auth/', include('apps.authentication.urls')),
 
     # =============DEBUG_TOOLBAR URLs =======
     path('__debug__/', include('debug_toolbar.urls')),
-
 
 )
