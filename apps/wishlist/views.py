@@ -7,7 +7,7 @@ from apps.wishlist.models import Wishlist
 
 def wishlist(request: WSGIRequest):
     context = {
-        'wishlists': Wishlist.objects.select_related('user', 'product')
+        'wishlists': Wishlist.objects.filter(user=request.user).select_related('user', 'product')
     }
     return render(request=request, template_name='wishlist.html', context=context)
 

@@ -18,7 +18,7 @@ class Product(models.Model):
         SEK = 'SEK', 'Swedish Krona'
         NZD = 'NZD', 'New Zealand Dollar'
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=155)
     avg_rating = models.DecimalField(
         max_digits=10,
         decimal_places=1,
@@ -43,10 +43,10 @@ class Product(models.Model):
         max_length=5
     )
     short_description = models.CharField(max_length=255)
-    long_description = models.TextField()
+    long_description = models.TextField(max_length=10_000, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    added_at = models.DateTimeField(auto_now_add=True)
+    added_at = models.DateTimeField(auto_now=True)
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/')
 
     def set_avg_rating(self):

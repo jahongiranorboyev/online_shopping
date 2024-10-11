@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     # This place for My apps start
     'apps.general',
     'apps.categories',
-    'apps.main',
     'apps.sellers',
     'apps.abouts',
     'apps.authentication',

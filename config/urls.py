@@ -1,13 +1,15 @@
 from django.contrib import admin
+from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 
-from apps.main import views
-from apps.general.views import set_language
+
+from apps.contact.views import contact
 from apps.categories.views import category
-from apps.products.views import search_product
-from config import settings
+from apps.general.views import (
+    set_language, home,
+    checkout, cart, search)
 
 urlpatterns = [
     # =========== CKEDITOR URLS  ============
@@ -21,26 +23,34 @@ urlpatterns = [
 
 ]
 urlpatterns += i18n_patterns(
-    path('', views.home, name='home-page'),
+    path('', home, name='home-page'),
     path('admin/', admin.site.urls),
-    path('detail/', views.detail, name='detail-page'),
-    path('contact/', views.contact, name='contact-page'),
-    path('checkout/', views.checkout, name='checkout-page'),
-    path('cart/', views.cart, name='cart-page'),
-    path('products/', include('apps.products.urls', namespace='products')),
-    path('category/', category, name='category-page'),
-    path('search/', search_product, name='search_name'),
 
-    # =======ABOUT URLS =======
+    # ======= General URLS =======
+
+    path('checkout/', checkout, name='checkout-page'),
+    path('cart/', cart, name='cart-page'),
+    path('search/', search, name='search'),
+
+    # ============= CONTACT URLS =============
+    path('contact/', contact, name='contact-page'),
+
+    # ============= CATEGORIES URLS =============
+    path('category/', category, name='category'),
+
+    # ============= ABOUT URLS =============
     path('about/', include('apps.abouts.urls', namespace='about')),
 
-    # ======= WISHLIST URLS =======
+    # ============= WISHLIST URLS =============
     path('wishlist/', include('apps.wishlist.urls', namespace='wishlists')),
 
-    # ===========AUTH URLS  ============
+    # =============  PRODUCTS URLS =============
+    path('products/', include('apps.products.urls', namespace='products')),
+
+    # ============= AUTH URLS  =============
     path('auth/', include('apps.authentication.urls')),
 
-    # =============DEBUG_TOOLBAR URLs =======
+    # ============= DEBUG_TOOLBAR URLs =============
     path('__debug__/', include('debug_toolbar.urls')),
 
 )

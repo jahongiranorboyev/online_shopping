@@ -9,4 +9,5 @@ from apps.abouts.models import About
 
 @receiver(post_delete, sender=About)
 def delete_related_image(instance,**kwargs):
-    os.remove(instance.image.path)
+    if os.path.isfile(instance.image.path):
+        os.remove(instance.image.path)
