@@ -37,7 +37,7 @@
         <div class="col-lg-6 d-none d-lg-block">
             <div class="d-inline-flex align-items-center h-100">
                 <a class="text-body mr-3" href="{% url 'about:about-page' %}">{% translate 'About' %}</a>
-                <a class="text-body mr-3" href="">{% translate 'Contact' %}</a>
+                <a class="text-body mr-3" href="{% url 'contacts:contact-page' %}">{% translate 'Contact' %}</a>
                 <a class="text-body mr-3" href="">{% translate 'Help' %}</a>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
                         {% if user.is_authenticated %}
-                            {{ user.username }}
+                            {{ user.get_full_name }}
                         {% else %}
                             Login
                         {% endif %}
@@ -64,28 +64,38 @@
                             <a href="{% url 'register-page' %}">
                                 <button class="dropdown-item" type="button">{% translate 'Sign up' %}</button>
                             </a>
-                            
+
                         {% endif %}
 
                     </div>
                 </div>
                 <div class="btn-group mx-2">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD
+                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                            data-toggle="dropdown">{{ currency }}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">EUR</button>
-                        <button class="dropdown-item" type="button">GBP</button>
-                        <button class="dropdown-item" type="button">CAD</button>
+                        {% for curr in currency_list %}
+                            {% if currency != curr %}
+                                <a href="{% url 'set-currency' curr %}">
+                                <button class="dropdown-item" type="button">{{ curr }}</button>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{ current_language.upper  }}
-                    </button> 
+                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                            data-toggle="dropdown">{{ current_language.upper }}
+                    </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         {% for available_language in available_languages %}
-                            {% if available_language.0 != current_language%}
-                            	 <a style="color: inherit " href="{% url 'set-lang' lang=available_language.0 %}"><button class="dropdown-item" type="button">{{ available_language.0.upper }}</button></a>
-                            {% endif %} 
+                            {% if available_language.0 != current_language %}
+                                <a style="color: inherit " href="{% url 'set-lang' lang=available_language.0 %}">
+                                    <button class="dropdown-item"
+                                            type="button">{{ available_language.0.upper }}</button>
+                                </a>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -114,7 +124,9 @@
         <div class="col-lg-4 col-6 text-left">
             <form action="{% url 'search' %}" method="get">
                 <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="{% translate 'Search for products' %}" value="{{ request.session.search_text }}">
+                    <input type="text" name="search" class="form-control"
+                           placeholder="{% translate 'Search for products' %}"
+                           value="{{ request.session.search_text }}">
                     <div class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -181,7 +193,7 @@
                            class="nav-item nav-link {% if page == 'home' %} active {% endif %} ">{% translate 'Home' %}</a>
                         <a href="{% url 'products:product_list' %}"
                            class="nav-item nav-link {% if page == 'shop' %} active {% endif %}">{% translate 'Shop' %}</a>
-                        <a href="{% url 'contact-page' %}"
+                        <a href="{% url 'contacts:contact-page' %}"
                            class="nav-item nav-link {% if page == 'contact' %} active {% endif %}">{% translate 'Contact' %}</a>
                         <a href="{% url 'about:about-page' %}"
                            class="nav-item nav-link {% if page == 'about' %} active {% endif %} ">{% translate 'About' %}</a>
@@ -190,12 +202,12 @@
                         <a class="btn px-0" href="{% url 'wishlists:wishlist' %}">
                             <i class="fas fa-heart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle"
-                                  style="padding-bottom: 2px;">{{ wishlist.count }}</span>
+                                  style="padding-bottom: 2px;">{{ request.user.user_wishlist_count }}</span>
                         </a>
-                        <a href="{% url 'cart-page' %}" class="btn px-0 ml-3">
+                        <a href="{% url 'carts:cart-page' %}" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle"
-                                  style="padding-bottom: 2px;">0</span>
+                                  style="padding-bottom: 2px;">{{ request.user.user_cart_count }}</span>
                         </a>
                     </div>
                 </div>
@@ -229,13 +241,11 @@
                         <a class="text-secondary mb-2" href="{% url 'home-page' %}"><i
                                 class="fa fa-angle-right mr-2"></i>Home</a>
                         <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-secondary mb-2" href="{% url 'products:detail-page' %}"><i
-                                class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                        <a class="text-secondary mb-2" href="{% url 'cart-page' %}"><i
+                        <a class="text-secondary mb-2" href="{% url 'carts:cart-page' %}"><i
                                 class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                         <a class="text-secondary mb-2" href="{% url 'checkout-page' %}"><i
                                 class="fa fa-angle-right mr-2"></i>Checkout</a>
-                        <a class="text-secondary" href="{% url 'contact-page' %}"><i class="fa fa-angle-right mr-2"></i>Contact
+                        <a class="text-secondary" href="{% url 'contacts:contact-page' %}"><i class="fa fa-angle-right mr-2"></i>Contact
                             Us</a>
                     </div>
                 </div>

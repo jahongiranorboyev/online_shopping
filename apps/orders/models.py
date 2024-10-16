@@ -1,7 +1,8 @@
+from django.conf import settings
 from django.db import models
 
 class Order(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.PROTECT)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     # payment_method = models.ForeignKey()
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     delivery_price = models.DecimalField(max_digits=10, decimal_places=2)

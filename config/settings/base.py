@@ -2,7 +2,6 @@ import os
 
 from pathlib import Path
 
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -44,9 +43,10 @@ INSTALLED_APPS = [
     'apps.authentication',
     'apps.products',
     'apps.comments',
-    'apps.ratings',
     'apps.wishlist',
-
+    'apps.contact',
+    'apps.users',
+    'apps.cart',
 
     # This place for debug-toolbar
     'debug_toolbar',
@@ -114,3 +114,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.CustomUser'
+

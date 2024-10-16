@@ -4,12 +4,17 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 
-
 from apps.contact.views import contact
 from apps.categories.views import category
 from apps.general.views import (
-    set_language, home,
-    checkout, cart, search)
+    set_language,
+    home,
+    checkout,
+    cart,
+    search,
+    set_currency,
+    page_404
+)
 
 urlpatterns = [
     # =========== CKEDITOR URLS  ============
@@ -21,6 +26,8 @@ urlpatterns = [
     # =======SET LANGUAGE URLS =======
     path('set-language/<str:lang>/', set_language, name='set-lang'),
 
+    # =======SET CURRENCY URLS =======
+    path('set-currency/<str:currency>/', set_currency, name='set-currency'),
 ]
 urlpatterns += i18n_patterns(
     path('', home, name='home-page'),
@@ -29,14 +36,13 @@ urlpatterns += i18n_patterns(
     # ======= General URLS =======
 
     path('checkout/', checkout, name='checkout-page'),
-    path('cart/', cart, name='cart-page'),
     path('search/', search, name='search'),
-
-    # ============= CONTACT URLS =============
-    path('contact/', contact, name='contact-page'),
 
     # ============= CATEGORIES URLS =============
     path('category/', category, name='category'),
+
+    # ============= CONTACT URLS =============
+    path('contact/', include('apps.contact.urls', namespace='contacts')),
 
     # ============= ABOUT URLS =============
     path('about/', include('apps.abouts.urls', namespace='about')),
@@ -44,13 +50,22 @@ urlpatterns += i18n_patterns(
     # ============= WISHLIST URLS =============
     path('wishlist/', include('apps.wishlist.urls', namespace='wishlists')),
 
+    # ============= CART URLS =============
+    path('cart/', include('apps.cart.urls', namespace='carts')),
+
     # =============  PRODUCTS URLS =============
     path('products/', include('apps.products.urls', namespace='products')),
+
+    # =============  COMMENTS URLS =============
+    path('comments/', include('apps.comments.urls', namespace='comments')),
 
     # ============= AUTH URLS  =============
     path('auth/', include('apps.authentication.urls')),
 
     # ============= DEBUG_TOOLBAR URLs =============
     path('__debug__/', include('debug_toolbar.urls')),
+
+    # ============= 404 URLS =============
+    path('404/', page_404, name='404-page'),
 
 )

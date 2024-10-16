@@ -6,7 +6,7 @@ git clone https://github.com/jahongiranorboyev/online_shopping.git
 ```
 ## 2. Change Directory
 ```bash
-cd online_shoping
+cd online_shopping
 ```
 ## 3. Create .env file using .env.example
 ```bash
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 ```
 # Available APIs
 
-1.**API DOC (Swagger)**
+1.**API **
    [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 2.**Login API**
