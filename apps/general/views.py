@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.utils.translation import activate, get_language
 
-from apps.products.models import Product
+from apps.general.models import General
 from apps.wishlist.models import Wishlist
 from config import settings
 
@@ -32,7 +32,7 @@ def set_language(request, lang):
 
 
 def set_currency(request, currency: str):
-    currencies = Product.Currency.values
+    currencies = General.Currency.values
     if currency in currencies:
         request.session['currency'] = currency
     return redirect(request.META['HTTP_REFERER'])

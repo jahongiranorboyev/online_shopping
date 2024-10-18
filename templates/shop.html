@@ -178,16 +178,20 @@
                                     <div class="product-action">
                                         <a class="btn btn-outline-dark btn-square" href="{% url 'carts:create_cart' product.id %}">
                                             {% if product.id in user_cart %}
-                                                <i style="color: yellow" class="far fa-shopping-cart" aria-hidden="true"></i>
+                                                <a href="{% url 'carts:delete_cart' product.id %}">
+                                                <i style="color: yellow" class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                </a>
                                             {% else %}
-                                            	<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                            	<i style="color: white" class="fa fa-shopping-cart" aria-hidden="true"></i>
                                             {% endif %}
                                         </a>
                                         <a class="btn btn-outline-dark btn-square" href="{% url 'wishlists:wishlist_create' product_id=product.id %}">
                                             {% if product.id in user_wishlist %}
-                                            	<i style="color: yellow" class="fa fa-heart" aria-hidden="true"></i>
+                                                <a href="{% url 'wishlist:delete_wishlist' product.id %}">
+                                                <i style="color: yellow" class="fa fa-heart" aria-hidden="true"></i>
+                                                </a>
                                             {% else %}
-                                            	<i style="color: yellow" class="far fa-heart" aria-hidden="true"></i>
+                                            	<i style="color: white" class="far fa-heart" aria-hidden="true"></i>
                                             {% endif %} 
                                         </a>
                                         <a class="btn btn-outline-dark btn-square" href=""><i
@@ -198,9 +202,9 @@
                                 <div class="text-center py-4">
                                     <a class="h6 text-decoration-none text-truncate" href="">{{ product.title }}</a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>{{ product.price }}</h5>
+                                        <h5>{% get_price_by_currency currency product.price %}</h5>
                                         <h6 class="text-muted ml-2">
-                                            <del>{{ product.old_price }}</del>
+                                            <del>{% get_price_by_currency currency product.old_price %}</del>
                                         </h6>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">

@@ -1,5 +1,5 @@
 import os
-from itertools import product
+
 
 from django.db import transaction
 
@@ -12,7 +12,8 @@ from faker.generator import random
 
 from apps.abouts.models import About
 from apps.categories.models import Category
-from apps.general.service import random_image_url, random_image_download
+from apps.general.models import General
+from apps.general.service import  random_image_download
 from apps.products.models import Product
 
 fake = Faker()
@@ -52,7 +53,7 @@ class Command(BaseCommand):
                         title=fake.text(155),
                         price=random.randint(5, 500),
                         old_price=random.randint(500, 1000),
-                        currency=random.choice(Product.Currency.choices)[0],
+                        currency=random.choice(General.Currency.choices)[0],
                         short_description=fake.text(255),
                         long_description=fake.text(10_000),
                         category_id=category.pk,

@@ -21,4 +21,4 @@ def wishlist_create(request: WSGIRequest, product_id: int):
 
 def delete_wishlist(request: WSGIRequest, product_id: int) -> None:
     Wishlist.objects.filter(product_id=product_id).delete()
-    return redirect('wishlists:wishlist')
+    return redirect(request.META['HTTP_REFERER'])

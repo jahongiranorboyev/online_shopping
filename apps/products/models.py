@@ -5,17 +5,11 @@ from django.db import models
 
 from apps.categories.models import Category
 from apps.comments.models import ProductComment
-
+from apps.general.models import General
 
 
 class Product(models.Model):
-    class Currency(models.TextChoices):
-        USD = 'USD', 'USD'
-        EUR = 'EUR', 'EUR'
-        RUB = 'RUB', 'RUB'
-        UZS = 'UZS', 'UZS'
 
-    DEFAULT_CURRENCY = Currency.USD
 
     title = models.CharField(max_length=155)
     avg_rating = models.DecimalField(
@@ -38,11 +32,12 @@ class Product(models.Model):
     old_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=Decimal('0')
+        default=Decimal('0'),
+        blank=True
     )
     currency = models.CharField(
-        choices=Currency.choices,
-        default=Currency.USD,
+        choices=General.Currency.choices,
+        default=General.Currency.USD,
         max_length=5
     )
     short_description = models.CharField(max_length=255)
