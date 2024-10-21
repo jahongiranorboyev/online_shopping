@@ -10,7 +10,6 @@ django-modeltranslation==0.19.9
 exceptiongroup==1.2.2
 executing==2.1.0
 Faker==30.1.0
-idna==3.2
 ipython==8.28.0
 jedi==0.19.1
 matplotlib-inline==0.1.7

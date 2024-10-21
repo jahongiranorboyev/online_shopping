@@ -27,12 +27,14 @@ class Product(models.Model):
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=Decimal('0')
+        default=Decimal('0'),
+        help_text='Enter in UZS'
     )
     old_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=Decimal('0'),
+        help_text='Enter in UZS',
         blank=True
     )
     currency = models.CharField(
@@ -46,6 +48,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     added_at = models.DateTimeField(auto_now=True)
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/')
+
 
     def set_avg_rating(self):
         aggregated_amount = ProductComment.objects.filter(
@@ -62,6 +65,8 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('products.Product', on_delete=models.CASCADE,related_name='images')
     image = models.ImageField(upload_to='product/images/%Y/%m/%d/')
     ordering_number = models.PositiveSmallIntegerField(default=0)
+
+

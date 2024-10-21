@@ -6,4 +6,4 @@ from apps.categories.filters import CategoryFilter
 
 @admin.register(Category)
 class CategoryAdmin(TranslationAdmin):
-    list_display = (CategoryFilter,)
+    list_filter = (CategoryFilter,)

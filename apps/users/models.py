@@ -5,6 +5,9 @@ from django.contrib.auth.models import AbstractUser, UserManager
 
 from django.db import models
 
+from apps.users.services import user_image_location
+
+
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         """
@@ -17,20 +20,13 @@ class CustomUserManager(UserManager):
         return user
 
     def create_user(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault("is_staff", False)
-        extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-
-        if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must have is_staff=True.")
-        if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
-
+        extra_fields['is_staff'] = extra_fields['is_superuser'] = True
         return self._create_user(email, password, **extra_fields)
+
+
 
 class CustomUser(AbstractUser):
 
@@ -40,8 +36,7 @@ class CustomUser(AbstractUser):
     user_wishlist_count = models.IntegerField(default=0)
     user_cart_count = models.IntegerField(default=0)
     user_image = models.ImageField(
-        default='authentication/users/images/default.jpeg',
-        upload_to='authentication/users/images/%Y/%m/%d/',
+        upload_to= user_image_location,
         blank=True,
         null=True
     )

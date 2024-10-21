@@ -1,5 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -33,7 +34,11 @@ def product_list(request: WSGIRequest) -> HttpResponse:
         user_wishlist = []
 
     search_text = request.session.get('search_text', None)
+    cat_id = request.session.get('cat_id', None)
     queryset = Product.objects.order_by('-pk')
+
+    if cat_id:
+        queryset=queryset.filter(Q(category_id=cat_id) | Q(category__parent_id=cat_id))
 
     if search_text:
         queryset = queryset.filter(title__icontains=search_text)
@@ -41,7 +46,6 @@ def product_list(request: WSGIRequest) -> HttpResponse:
     page_number = request.GET.get('page', 1)
     paginate_obj = Paginator(queryset, 9)
     page_obj = paginate_obj.get_page(page_number)
-    print(page_obj)
     context = {
         'page_obj': page_obj,
         'page': 'shop',

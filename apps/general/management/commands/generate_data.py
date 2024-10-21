@@ -46,8 +46,16 @@ class Command(BaseCommand):
             )
             image_name = random_image_download(image_dir)
             products = []
+            counts = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+            print(f'Please, Wait for {len(counts)-cat_i} seconds !\n')
+            if cat_i+1 == 1:
+                print(f'\t{cat_i+1} category created ! {(cat_i+1)*100} products created !\n')
+            else:
+                print(f'\t{cat_i+1} categories created ! {(cat_i+1)*100} products created !\n')
+
             for pro_i in range(100):
-                print(pro_i * cat_i)
+                if cat_i in counts :
+                    counts.remove(cat_i)
                 products.append(
                     Product(
                         title=fake.text(155),

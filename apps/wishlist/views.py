@@ -13,10 +13,11 @@ def wishlist(request: WSGIRequest):
     }
     return render(request=request, template_name='wishlist.html', context=context)
 
+
 @login_required(login_url='login-page')
 def wishlist_create(request: WSGIRequest, product_id: int):
     Wishlist.objects.get_or_create(product_id=product_id, user=request.user)
-    return redirect('products:product_list')
+    return redirect(request.META['HTTP_REFERER'])
 
 
 def delete_wishlist(request: WSGIRequest, product_id: int) -> None:

@@ -12,15 +12,16 @@ class Category(models.Model):
         related_name='children',
         related_query_name='category'
     )
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def clean(self):
+        try:
+            if not self.pk and self.parent.parent:
+                raise ValidationError('you can creat only two categories')
+        except AttributeError:
+            pass
 
 
-def clean(self):
-    try:
-        if not self.pk and self.parent.parent.parent:
-            raise ValidationError('you can creat only three category')
-    except AttributeError:
-        pass
-
-
-def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name

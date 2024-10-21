@@ -2,6 +2,7 @@ import requests
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.timezone import now
+from django.core.cache import cache
 
 from .validation_phone import check_uzb_number
 
@@ -13,7 +14,7 @@ class General(models.Model):
         RUB = 'RUB', 'RUB'
         UZS = 'UZS', 'UZS'
 
-    DEFAULT_CURRENCY = Currency.USD
+    DEFAULT_CURRENCY = Currency.UZS
     phone1 = models.CharField(max_length=13, validators=[check_uzb_number], help_text="UZB Number +998123456789")
     phone2 = models.CharField(max_length=13, null=True, blank=True, validators=[check_uzb_number])
 
@@ -29,25 +30,38 @@ class General(models.Model):
 class GeneralSocialMedia(models.Model):
     url = models.URLField()
     icon = models.ImageField(upload_to="social_links/icon/image/%Y/%m/%d/")
-#
-# class CurrencyAmount(models.Model):
-#
-#     GET_CURRENCY_URL = 'https://cbu.uz/oz/arkhiv-kursov-valyut/json/{currency}/all/{date}/'
-#
-#     currency = models.CharField(max_length=10,choices=General.Currency.choices)
-#     usd_amount = models.DecimalField(max_digits=20, decimal_places=2)
-#     date = models.DateField()
 
-    # @classmethod
-    # def get_or_create(cls, currency:str):
-    #
-    #
-    #
-    #     today = now().today()
-    #     currency_list = ['USD', 'RUB']
-    #     for curr in currency_list:
-    #         res = requests.get(GET_CURRENCY_URL.format(currency=curr, date=today)).json()[0]
-    #         print(res['Ccy'], res['Rate'])
-    #
-    # class Meta:
-    #     unique_together = (('currency', 'date'),)
+
+class CurrencyAmount(models.Model):
+    GET_CURRENCY_URL = 'https://cbu.uz/oz/arkhiv-kursov-valyut/json/{currency}/all/{date}/'
+
+    currency = models.CharField(max_length=10, choices=General.Currency.choices)
+    usd_amount = models.DecimalField(max_digits=20, decimal_places=2)
+    date = models.DateField()
+
+    @classmethod
+    def get_amount(cls, currency: str):
+        today = now().today()
+
+        amount_in_uzs = cache.get(f'{currency}_{today}')
+
+        if not amount_in_uzs:
+            obj, created = cls.objects.get_or_create(
+                currency=currency,
+                date=today,
+            )
+            if created:
+                obj.usd_amount = requests.get(cls.GET_CURRENCY_URL.format(
+                    currency=currency,
+                    date=today)
+                ).json()[0]['Rate']
+                obj.save()
+                cache.set(f'{currency}_{today}',obj.usd_amount,24*60*60)
+                amount_in_uzs = cache.get(f'{currency}_{today}')
+
+
+        return amount_in_uzs
+
+
+    class Meta:
+         unique_together = (('currency', 'date'),)

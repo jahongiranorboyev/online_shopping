@@ -39,7 +39,7 @@ urlpatterns += i18n_patterns(
     path('search/', search, name='search'),
 
     # ============= CATEGORIES URLS =============
-    path('category/', category, name='category'),
+    path('category/', include('apps.categories.urls', namespace='categories')),
 
     # ============= CONTACT URLS =============
     path('contact/', include('apps.contact.urls', namespace='contacts')),
