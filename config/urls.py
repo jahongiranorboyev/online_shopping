@@ -4,16 +4,14 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 
-from apps.contact.views import contact
-from apps.categories.views import category
 from apps.general.views import (
     set_language,
     home,
     checkout,
-    cart,
     search,
     set_currency,
-    page_404
+    page_404,
+    clear_session,
 )
 
 urlpatterns = [
@@ -37,6 +35,8 @@ urlpatterns += i18n_patterns(
 
     path('checkout/', checkout, name='checkout-page'),
     path('search/', search, name='search'),
+    path('clear-session/', clear_session, name='clear_session'),
+
 
     # ============= CATEGORIES URLS =============
     path('category/', include('apps.categories.urls', namespace='categories')),

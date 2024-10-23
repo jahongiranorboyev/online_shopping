@@ -44,5 +44,10 @@ def search(request):
     return redirect('products:product_list')
 
 
+def clear_session(request):
+    request.session.flush()
+    return redirect('products:product_list')
+
+
 def page_404(request):
     return render(request, '404.html', status=404)

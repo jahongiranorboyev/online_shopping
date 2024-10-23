@@ -41,7 +41,7 @@ class CurrencyAmount(models.Model):
 
     @classmethod
     def get_amount(cls, currency: str):
-        today = now().today()
+        today = now().date()
 
         amount_in_uzs = cache.get(f'{currency}_{today}')
 
@@ -49,19 +49,18 @@ class CurrencyAmount(models.Model):
             obj, created = cls.objects.get_or_create(
                 currency=currency,
                 date=today,
+                defaults={
+                    'usd_amount': requests.get(cls.GET_CURRENCY_URL.format(
+                        currency=currency,
+                        date=today)
+                    ).json()[0]['Rate'],
+                }
             )
-            if created:
-                obj.usd_amount = requests.get(cls.GET_CURRENCY_URL.format(
-                    currency=currency,
-                    date=today)
-                ).json()[0]['Rate']
-                obj.save()
-                cache.set(f'{currency}_{today}',obj.usd_amount,24*60*60)
-                amount_in_uzs = cache.get(f'{currency}_{today}')
 
+            cache.set(f'{currency}_{today}', obj.usd_amount, 24 * 60 * 60)
+            amount_in_uzs = cache.get(f'{currency}_{today}')
 
         return amount_in_uzs
 
-
     class Meta:
-         unique_together = (('currency', 'date'),)
+        unique_together = (('currency', 'date'),)

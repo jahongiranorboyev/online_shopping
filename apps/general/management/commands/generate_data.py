@@ -1,6 +1,5 @@
 import os
 
-
 from django.db import transaction
 
 from faker import Faker
@@ -13,7 +12,7 @@ from faker.generator import random
 from apps.abouts.models import About
 from apps.categories.models import Category
 from apps.general.models import General
-from apps.general.service import  random_image_download
+from apps.general.service import random_image_download
 from apps.products.models import Product
 
 fake = Faker()
@@ -44,24 +43,27 @@ class Command(BaseCommand):
             category = Category.objects.create(
                 name=fake.first_name(),
             )
+            
+            #============children Category===========
+            if cat_i %2 :
+                for i in range(3):
+                    Category.objects.create(name=fake.last_name(),parent_id=category.pk)
+
             image_name = random_image_download(image_dir)
             products = []
             counts = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-            print(f'Please, Wait for {len(counts)-cat_i} seconds !\n')
-            if cat_i+1 == 1:
-                print(f'\t{cat_i+1} category created ! {(cat_i+1)*100} products created !\n')
+            print(f'Please, Wait for {len(counts) - cat_i} seconds !\n')
+            if cat_i + 1 == 1:
+                print(f'\t{cat_i + 1} category created ! {(cat_i + 1) * 100} products created !\n')
             else:
-                print(f'\t{cat_i+1} categories created ! {(cat_i+1)*100} products created !\n')
+                print(f'\t{cat_i + 1} categories created ! {(cat_i + 1) * 100} products created !\n')
 
             for pro_i in range(100):
-                if cat_i in counts :
+                if cat_i in counts:
                     counts.remove(cat_i)
                 products.append(
                     Product(
                         title=fake.text(155),
-                        price=random.randint(5, 500),
-                        old_price=random.randint(500, 1000),
-                        currency=random.choice(General.Currency.choices)[0],
                         short_description=fake.text(255),
                         long_description=fake.text(10_000),
                         category_id=category.pk,

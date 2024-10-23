@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+from apps.features.models import Feature, FeatureValue
+
+
+@admin.register(Feature)
+class FeatureAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(FeatureValue)
+class FeatureValueAdmin(admin.ModelAdmin):
+    pass

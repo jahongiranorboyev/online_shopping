@@ -10,7 +10,7 @@ cd online_shopping
 ```
 ## 3. Create .env file using .env.example
 ```bash
-mv .env.example .env
+cp .env.example .env
 ```
 ## 4. Create a virtual environment using Python 3.10 
 ```bash
