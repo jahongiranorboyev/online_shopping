@@ -12,7 +12,8 @@ def login_page(request):
 def user_login(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
-    user = authenticate(request, username=username, password=password)
+    user = authenticate(request, email=username, password=password)
+    print(user)
     if not user:
         messages.error(request, 'Invalid username or password.')
         return redirect('login-page')

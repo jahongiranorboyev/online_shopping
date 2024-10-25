@@ -8,8 +8,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from apps.cart.models import Cart
 from apps.comments.models import ProductComment
-from apps.features.models import Feature
-from apps.products.models import Product, ProductFeature
+from apps.products.models import Product
 from apps.wishlist.models import Wishlist
 
 
@@ -18,28 +17,17 @@ def product_detail(request, pk):
     comments = ProductComment.objects.filter(product_id=product.id).order_by('-created_at')
     comment_page = request.GET.get('comment_page', 1)
     comment_page_obj = Paginator(comments, 3).get_page(comment_page)
-
-    product_features = ProductFeature.objects.prefetch_related('feature_values').filter(product_id = pk)
-    features ={}
-    for product_feature in product_features:
-        for value in product_feature.feature_values.all():
-            if value.feature_id not in features:
-                features[value.feature_id] = {
-                    'id': value.feature_id,
-                    'name': value.feature.name,
-                    'values':[
-                        {'id':value.id, 'name':value.name},
-                    ]
-                }
-            else:
-                features[value.feature_id]['values'].append({'id':value.id, 'name':value.name})
-
+    try:
+        user_cart_quantity = Cart.objects.get(product_id=pk, user=request.user).quantity
+    except Cart.DoesNotExist:
+        user_cart_quantity = 0
 
     context = {
         'product': product,
         'comments': comments,
         'comment_page': comment_page_obj,
-        'features': list(features.values()),
+        'features': product.features,
+        'user_cart_quantity': user_cart_quantity,
         'page': 'detail',
     }
     return render(request=request, template_name='detail.html', context=context)

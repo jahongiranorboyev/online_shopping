@@ -20,7 +20,7 @@
                           novalidate="novalidate">
                     {% csrf_token %}
                         {% for message in messages %}
-                            <p>{{ message }}</p>
+                            <p style="color: {% if message.level == 25 %} green {% endif %};">{{ message }}</p>
                         {% endfor %}
 
                         {% if not user.is_authenticated %}

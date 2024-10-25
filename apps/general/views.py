@@ -49,5 +49,6 @@ def clear_session(request):
     return redirect('products:product_list')
 
 
+
 def page_404(request):
     return render(request, '404.html', status=404)

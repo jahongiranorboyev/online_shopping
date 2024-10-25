@@ -11,9 +11,11 @@ class ProductFeatureInline(admin.TabularInline):
     model = ProductFeature
     min_num = 1
 
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline, ProductFeatureInline]
+    readonly_fields = ('price', 'old_price')
 
 
 @admin.register(ProductImage)

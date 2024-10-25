@@ -18,4 +18,5 @@ def create_contact(request):
     else:
         messages.error(request, form.errors)
 
+
     return redirect(request.META.get('HTTP_REFERER'))

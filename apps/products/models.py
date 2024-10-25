@@ -10,6 +10,18 @@ from apps.general.models import General
 
 class Product(models.Model):
     title = models.CharField(max_length=155)
+    price = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        editable=False,
+        help_text='Enter in UZS'
+    )
+    old_price = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        editable=False,
+        help_text='Enter in UZS',
+    )
     avg_rating = models.DecimalField(
         max_digits=10,
         decimal_places=1,
@@ -29,6 +41,24 @@ class Product(models.Model):
     added_at = models.DateTimeField(auto_now=True)
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/')
 
+    @property
+    def features(self):
+        product_features = ProductFeature.objects.prefetch_related('feature_values').filter(product_id=self.pk)
+        features = {}
+        for product_feature in product_features:
+            for value in product_feature.feature_values.all():
+                if value.feature_id not in features:
+                    features[value.feature_id] = {
+                        'id': value.feature_id,
+                        'name': value.feature.name,
+                        'values': [
+                            {'id': value.id, 'name': value.name},
+                        ]
+                    }
+                else:
+                    features[value.feature_id]['values'].append({'id': value.id, 'name': value.name})
+        return list(features.values())
+
     def set_avg_rating(self):
         aggregated_amount = ProductComment.objects.filter(
             product_id=self.pk
@@ -41,8 +71,10 @@ class Product(models.Model):
     def set_comments_rating(self):
         self.comments_count = ProductComment.objects.filter(product_id=self.pk).count()
         self.save()
+
     def __str__(self):
         return self.title[:25]
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE, related_name='images')
@@ -67,3 +99,8 @@ class ProductFeature(models.Model):
         blank=True
     )
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        self.product.price, self.product.old_price = self.price, self.old_price
+        self.product.save()
