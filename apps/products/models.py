@@ -34,6 +34,7 @@ class Product(models.Model):
         default=Decimal('0'),
         editable=False
     )
+    seen_count = models.PositiveBigIntegerField(default=0)
     short_description = models.CharField(max_length=255)
     long_description = models.TextField(max_length=10_000, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

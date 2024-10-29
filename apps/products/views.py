@@ -1,5 +1,3 @@
-from pyexpat import features
-
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -13,6 +11,8 @@ from apps.wishlist.models import Wishlist
 
 
 def product_detail(request, pk):
+
+
     product = get_object_or_404(Product, pk=pk)
     comments = ProductComment.objects.filter(product_id=product.id).order_by('-created_at')
     comment_page = request.GET.get('comment_page', 1)
@@ -21,6 +21,13 @@ def product_detail(request, pk):
         user_cart_quantity = Cart.objects.get(product_id=pk, user=request.user).quantity
     except Cart.DoesNotExist:
         user_cart_quantity = 0
+
+    if request.method == 'GET':
+        product.seen_count +=1
+        product.save()
+
+
+
 
     context = {
         'product': product,
@@ -47,6 +54,7 @@ def product_list(request: WSGIRequest) -> HttpResponse:
         user_cart = []
         user_wishlist = []
 
+
     search_text = request.session.get('search_text', None)
     cat_id = request.session.get('cat_id', None)
     queryset = Product.objects.order_by('-pk')
@@ -56,6 +64,19 @@ def product_list(request: WSGIRequest) -> HttpResponse:
 
     if search_text:
         queryset = queryset.filter(title__icontains=search_text)
+
+    data = request.GET.get('data')
+    rating = request.GET.get('rating')
+    views = request.GET.get('views')
+
+    if data:
+        queryset = queryset.filter(data=data)
+    if rating:
+        queryset = queryset.filter(avg_rating=rating)
+    if views:
+        queryset = queryset.filter(seen_count=views)
+
+
 
     page_number = request.GET.get('page', 1)
     paginate_obj = Paginator(queryset, 9)
