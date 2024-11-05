@@ -1,5 +1,8 @@
+from decimal import Decimal
+
 import requests
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.timezone import now
 from django.core.cache import cache
@@ -15,16 +18,33 @@ class General(models.Model):
         UZS = 'UZS', 'UZS'
 
     DEFAULT_CURRENCY = Currency.UZS
-    phone1 = models.CharField(max_length=13, validators=[check_uzb_number], help_text="UZB Number +998123456789")
-    phone2 = models.CharField(max_length=13, null=True, blank=True, validators=[check_uzb_number])
 
-    location = models.URLField()
+    text = models.CharField(max_length=120)
     address = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField(help_text="Email address")
+    phone = models.CharField(max_length=13, validators=[check_uzb_number], help_text="UZB Number +998123456789")
+
     logo = models.ImageField(upload_to="general/logo/image/%Y/%m/%d/")
+    cart_shipping_percent = models.DecimalField(
+        max_digits=3,
+        decimal_places=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
+
+    class Meta:
+        verbose_name = "General"
+        verbose_name_plural = "General"
+
+    def save(self, *args, **kwargs):
+        self.cart_shipping_percent = Decimal(self.cart_shipping_percent)
+        super().save(*args, **kwargs)
 
     def clean(self):
         if self.pk and General.objects.exists():
             raise ValidationError('Unique')
+
+    def __str__(self):
+        return self.text
 
 
 class GeneralSocialMedia(models.Model):
@@ -59,7 +79,6 @@ class CurrencyAmount(models.Model):
 
             cache.set(f'{currency}_{today}', obj.usd_amount, 24 * 60 * 60)
             amount_in_uzs = cache.get(f'{currency}_{today}')
-
         return amount_in_uzs
 
     class Meta:

@@ -2,6 +2,7 @@ import os
 
 from pathlib import Path
 
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -48,7 +49,8 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.cart',
     'apps.features',
-    
+    'apps.coupons',
+
 
     # This place for debug-toolbar
     'debug_toolbar',
@@ -106,7 +108,7 @@ STATIC_URL = 'static/'
 # STATIC_ROOT = BASE_DIR / 'static'
 
 STATICFILES_DIRS = [
-    BASE_DIR /'staticfiles',
+    BASE_DIR / 'staticfiles',
     BASE_DIR / 'static',
 ]
 
@@ -119,12 +121,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.CustomUser'
+LOGIN_URL = 'login-page'
+LOGIN_REDIRECT_URL = 'home-page'
 
 CASHES = {
     "default": {
-        "BACKEND":"django.core.cache.backends.redis.RedisCache",
-        "LOCATION":[
-            "redis://:redis_verystrongpassword@localhost/0",
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": [
+            "redis://localhost/0",
         ],
     }
 }

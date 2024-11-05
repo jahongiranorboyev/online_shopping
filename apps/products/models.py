@@ -14,6 +14,7 @@ class Product(models.Model):
         max_digits=20,
         decimal_places=2,
         editable=False,
+        default=Decimal(0),
         help_text='Enter in UZS'
     )
     old_price = models.DecimalField(
@@ -21,6 +22,7 @@ class Product(models.Model):
         decimal_places=2,
         editable=False,
         help_text='Enter in UZS',
+        default=Decimal(0)
     )
     avg_rating = models.DecimalField(
         max_digits=10,
@@ -37,10 +39,11 @@ class Product(models.Model):
     seen_count = models.PositiveBigIntegerField(default=0)
     short_description = models.CharField(max_length=255)
     long_description = models.TextField(max_length=10_000, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey('categories.Category', on_delete=models.CASCADE, related_name='products')
     created_at = models.DateTimeField(auto_now_add=True)
     added_at = models.DateTimeField(auto_now=True)
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/')
+
 
     @property
     def features(self):
@@ -73,8 +76,8 @@ class Product(models.Model):
         self.comments_count = ProductComment.objects.filter(product_id=self.pk).count()
         self.save()
 
-    def __str__(self):
-        return self.title[:25]
+
+
 
 
 class ProductImage(models.Model):
@@ -90,13 +93,15 @@ class ProductFeature(models.Model):
         max_digits=20,
         decimal_places=2,
         validators=[MinValueValidator(0)],
-        help_text='Enter in UZS'
+        help_text='Enter in UZS',
+        null=True
     )
     old_price = models.DecimalField(
         max_digits=20,
         decimal_places=2,
         validators=[MinValueValidator(0)],
         help_text='Enter in UZS',
+        null=True,
         blank=True
     )
 
@@ -105,3 +110,4 @@ class ProductFeature(models.Model):
 
         self.product.price, self.product.old_price = self.price, self.old_price
         self.product.save()
+

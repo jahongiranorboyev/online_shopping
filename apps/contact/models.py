@@ -8,6 +8,9 @@ class Contact(models.Model):
     subject = models.CharField(max_length=100)
     message = models.TextField(max_length=1000)
 
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs):
         if self.user:
             self.name, self.email = self.user.first_name, self.user.email

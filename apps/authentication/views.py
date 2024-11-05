@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.shortcuts import render, redirect
@@ -15,9 +16,9 @@ def user_login(request):
     user = authenticate(request, email=username, password=password)
     if not user:
         messages.error(request, 'Invalid username or password.')
-        return redirect('login-page')
+        return redirect(settings.LOGIN_URL)
     login(request, user)
-    return redirect('home-page')
+    return redirect(settings.LOGIN_REDIRECT_URL)
 
 
 def logout_page(request):
@@ -37,8 +38,8 @@ def user_register(request):
         get_user_model().objects.create_user(**obj_register.cleaned_data)
     else:
         messages.error( request=request,message= obj_register.errors)
-        return redirect('register-page')
-    return redirect('login-page')
+        return redirect(settings.LOGIN_REDIRECT_URL)
+    return redirect(settings.LOGIN_URL)
 
 
 

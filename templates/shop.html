@@ -275,7 +275,7 @@
                                         </a>
                                         <a class="btn btn-outline-dark btn-square" href="{% url 'wishlists:wishlist_create' product_id=product.id %}">
                                             {% if product.id in user_wishlist %}
-                                                <a href="{% url 'wishlist:delete_wishlist' product.id %}">
+                                                <a href="{% url 'wishlists:delete_wishlist' product.id %}">
                                                 <i style="color: yellow" class="fa fa-heart" aria-hidden="true"></i>
                                                 </a>
                                             {% else %}

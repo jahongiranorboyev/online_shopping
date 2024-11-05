@@ -3,7 +3,7 @@ from django.utils.translation import activate, get_language
 
 from apps.general.models import General
 from apps.wishlist.models import Wishlist
-from config import settings
+from django.conf import settings
 
 
 def home(request):

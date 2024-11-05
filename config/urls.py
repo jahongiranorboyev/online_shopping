@@ -53,6 +53,9 @@ urlpatterns += i18n_patterns(
     # ============= CART URLS =============
     path('cart/', include('apps.cart.urls', namespace='carts')),
 
+    # ============= COUPONS URLS =============
+    path('coupons', include('apps.coupons.urls', namespace='coupons')),
+
     # =============  PRODUCTS URLS =============
     path('products/', include('apps.products.urls', namespace='products')),
 

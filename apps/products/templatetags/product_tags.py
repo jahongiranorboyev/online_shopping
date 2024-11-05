@@ -22,4 +22,32 @@ def product_in_wishlist(user: int, product_id: int) -> bool:
 def get_price_by_currency(to_currency: str, price: Decimal = 0) -> Decimal:
     if to_currency == General.Currency.UZS:
         return price
-    return round(price / CurrencyAmount.get_amount(currency=to_currency),2)
+    return round(price / Decimal(CurrencyAmount.get_amount(currency=to_currency)), 2)
+
+
+@register.simple_tag
+def multiply(a, b):
+    a = (a / 100)
+    return round(a * b, 2)
+
+
+@register.simple_tag
+def total_cal(value1, value2, value3):
+    return (value1 + value2) - value3
+
+
+@register.simple_tag
+def str_to_decimal(value):
+    print(value)
+    try:
+        return Decimal(value)
+    except (ValueError, TypeError):
+        return None
+
+
+@register.simple_tag
+def int_to_decimal(value):
+    try:
+        return Decimal(value)
+    except (ValueError, TypeError):
+        return None
