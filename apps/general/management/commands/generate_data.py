@@ -13,6 +13,7 @@ from apps.abouts.models import About
 from apps.categories.models import Category
 
 from apps.general.service import random_image_download
+from apps.manufactures.models import Manufacturer
 from apps.products.models import Product
 
 fake = Faker()
@@ -40,16 +41,25 @@ class Command(BaseCommand):
         image_dir = os.path.join(settings.MEDIA_ROOT, django_filename)
 
         for cat_i in range(10):
+            image_name = random_image_download(image_dir)
             category = Category.objects.create(
                 name=fake.first_name(),
+                image=os.path.join(django_filename, image_name)
             )
-            
+            Manufacturer.objects.create(
+                name=fake.first_name(),
+                image=os.path.join(django_filename, image_name)
+            )
+
             #============children Category===========
             if cat_i %2 :
                 for i in range(3):
-                    Category.objects.create(name=fake.last_name(),parent_id=category.pk)
+                    Category.objects.create(
+                        name=fake.last_name(),
+                        parent_id=category.pk,
+                    )
 
-            image_name = random_image_download(image_dir)
+
             products = []
             counts = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
             print(f'Please, Wait for {len(counts) - cat_i} seconds !\n')

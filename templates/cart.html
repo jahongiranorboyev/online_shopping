@@ -27,7 +27,7 @@
                     {% for user_cart in user_carts %}
                     	<tr>
                             <td class="align-middle"><img src="{{ user_cart.product.main_image.url }}" alt="" style="width: 50px;">{{ user_carts.product.title }}</td>
-                            <td class="align-middle">$ {{ user_cart.product.price }}</td>
+                            <td class="align-middle">$ {{ user_cart.product.price  }} </td>
                             <td class="align-middle">
                                 <form action="{% url 'carts:set-cart-quantity' user_cart.pk %}" method="post">
                                     {% csrf_token %}
@@ -89,15 +89,14 @@
                         <br>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Coupon</h6>
-                            {% str_to_decimal request.session.coupon_data.discount_percent as c %}
-                            {% multiply c cart_total_price  as coupon %}
-                            <h6 class="font-weight-medium">$ - {{ coupon }} {{ request.session.currency }}</h6>
+                            <h6 class="font-weight-medium">$ - {{request.session.coupon_data.discount_percent }} {{ request.session.currency }}</h6>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            {% total_cal ss cart_total_price coupon as result %}
+                           
+                            {% total_cal ss cart_total_price   as result %}
                             <h5>$ {{ result }} {{ request.session.currency }}</h5>
                         </div>
                         <a href="{% url 'checkout-page' %}"><button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button></a>

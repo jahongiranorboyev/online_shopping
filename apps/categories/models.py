@@ -4,6 +4,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='category/images/%Y/%m/%d/')
     parent = models.ForeignKey(
         to='self',
         null=True,

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.cart',
     'apps.features',
     'apps.coupons',
+    'apps.manufactures',
 
 
     # This place for debug-toolbar

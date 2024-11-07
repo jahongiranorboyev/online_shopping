@@ -32,13 +32,13 @@ def multiply(a, b):
 
 
 @register.simple_tag
-def total_cal(value1, value2, value3):
-    return (value1 + value2) - value3
+def total_cal(value1, value2):
+    return value1 + value2
 
 
 @register.simple_tag
 def str_to_decimal(value):
-    print(value)
+    print(type(value))
     try:
         return Decimal(value)
     except (ValueError, TypeError):

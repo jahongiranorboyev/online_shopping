@@ -13,7 +13,6 @@ from apps.coupons.models import UsedCoupon
 
 @login_required(login_url=settings.LOGIN_URL)
 def cart(request: WSGIRequest):
-
     user = request.user
     code = request.session.get('coupon_data', {}).get('code')
     coupon_data = request.session.get('coupon_data')
@@ -29,16 +28,15 @@ def cart(request: WSGIRequest):
             and
             UsedCoupon.objects.filter(coupon__code=code, user_id=user.pk).exists()
             and now == end_date
-        ) :
-
+    ):
         del request.session['coupon_data']
 
     queryset = Cart.objects.annotate(total_quantity=F('quantity') * F('product__price')).filter(
         user=request.user).select_related('product')
-    cart_total_price = queryset.aggregate(Sum('total_quantity'))['total_quantity__sum']
+
     context = {
         'user_carts': queryset,
-        'cart_total_price': cart_total_price,
+        'cart_total_price': queryset.aggregate(Sum('total_quantity'))['total_quantity__sum']
     }
 
     return render(request=request, template_name='cart.html', context=context)
