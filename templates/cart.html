@@ -82,8 +82,7 @@
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
                             {% str_to_decimal general.cart_shipping_percent as c_sh_p %}
-                            {% str_to_decimal cart_total_price as c_sh_p_1 %}
-                            {% multiply c_sh_p c_sh_p_1 as ss %}
+                            {% multiply c_sh_p cart_total_price as ss %}
                             <h6 class="font-weight-medium">$ {{ ss }} {{ request.session.currency }}</h6>
                         </div>
                         <br>

@@ -16,14 +16,19 @@ def product_detail(request, pk):
     comments = ProductComment.objects.filter(product_id=product.id).order_by('-created_at')
     comment_page = request.GET.get('comment_page', 1)
     comment_page_obj = Paginator(comments, 3).get_page(comment_page)
-    try:
-        user_cart_quantity = Cart.objects.get(user=request.user, product_id=pk).quantity
-    except Cart.DoesNotExist:
+    if not request.user.is_authenticated:
         user_cart_quantity = 0
+    else:
+        try:
+            user_cart_quantity = Cart.objects.get(user=request.user, product_id=pk).quantity
+        except Cart.DoesNotExist:
+            user_cart_quantity = 0
 
-    if request.method == 'GET':
-        product.seen_count +=1
-        product.save()
+        if request.method == 'GET':
+            product.seen_count += 1
+            product.save()
+
+
 
     context = {
         'product': product,
@@ -32,7 +37,7 @@ def product_detail(request, pk):
         'features': product.features,
         'user_cart_quantity': user_cart_quantity,
         'page': 'detail',
-    }
+        }
     return render(request=request, template_name='detail.html', context=context)
 
 
