@@ -36,12 +36,12 @@ class Product(models.Model):
         default=Decimal('0'),
         editable=False
     )
-    seen_count = models.PositiveBigIntegerField(default=0)
+    seen_count = models.PositiveBigIntegerField(default=0,blank=True)
     short_description = models.CharField(max_length=255)
     long_description = models.TextField(max_length=10_000, blank=True)
     category = models.ForeignKey('categories.Category', on_delete=models.CASCADE, related_name='products')
-    created_at = models.DateTimeField(auto_now_add=True)
-    added_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    added_at = models.DateField(auto_now=True)
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/')
 
 
@@ -77,6 +77,8 @@ class Product(models.Model):
         self.save()
 
 
+    def __str__(self):
+        return self.title
 
 
 

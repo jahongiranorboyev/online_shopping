@@ -1,9 +1,11 @@
+from decimal import Decimal
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 
 from apps.cart.models import Cart
 from apps.comments.models import ProductComment
@@ -24,9 +26,9 @@ def product_detail(request, pk):
         except Cart.DoesNotExist:
             user_cart_quantity = 0
 
-        if request.method == 'GET':
-            product.seen_count += 1
-            product.save()
+    if request.method == 'GET':
+        product.seen_count += 1
+
 
 
 
@@ -69,16 +71,39 @@ def product_list(request: WSGIRequest) -> HttpResponse:
     if search_text:
         queryset = queryset.filter(title__icontains=search_text)
 
-    data = request.GET.get('data')
+    data = request.GET.get('date')
     rating = request.GET.get('rating')
     views = request.GET.get('views')
-
     if data:
-        queryset = queryset.filter(created_at=data)
+        try:
+            # Convert the date string to a timezone-aware datetime
+            naive_date = timezone.datetime.strptime(data, "%Y-%m-%d")
+            aware_date = timezone.make_aware(naive_date, timezone.get_current_timezone())
+            queryset = queryset.filter(created_at=aware_date)
+        except ValueError:
+            pass
+
+    filters = Q()
     if rating:
-        queryset = queryset.filter(avg_rating=rating)
+        try:
+            rating_value = Decimal(rating) if rating else None
+            if rating_value is not None:
+                filters &= Q(avg_rating=rating_value)
+        except (ValueError, TypeError):
+            pass
+
     if views:
-        queryset = queryset.filter(seen_count=views)
+        try:
+            views_value = int(views) if views else None
+            if views_value is not None:
+                filters &= Q(seen_count=views_value)
+        except (ValueError, TypeError):
+            pass
+
+
+    if filters:
+        queryset = queryset.filter(filters)
+
 
 
     page_number = request.GET.get('page', 1)

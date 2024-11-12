@@ -7,7 +7,6 @@ from django.conf.urls.i18n import i18n_patterns
 from apps.general.views import (
     set_language,
     home,
-    checkout,
     search,
     set_currency,
     page_404,
@@ -28,18 +27,22 @@ urlpatterns = [
     path('set-currency/<str:currency>/', set_currency, name='set-currency'),
 ]
 urlpatterns += i18n_patterns(
+
+
     path('', home, name='home-page'),
     path('admin/', admin.site.urls),
 
     # ======= General URLS =======
 
-    path('checkout/', checkout, name='checkout-page'),
     path('search/', search, name='search'),
     path('clear-session/', clear_session, name='clear_session'),
 
 
     # ============= CATEGORIES URLS =============
     path('category/', include('apps.categories.urls', namespace='categories')),
+
+    # ============= CHECKOUT URLS =============
+    path('checkout/', include('apps.orders.urls', namespace='checkouts')),
 
     # ============= CONTACT URLS =============
     path('contact/', include('apps.contact.urls', namespace='contacts')),
@@ -61,6 +64,9 @@ urlpatterns += i18n_patterns(
 
     # =============  COMMENTS URLS =============
     path('comments/', include('apps.comments.urls', namespace='comments')),
+
+    # =============  COMMENTS URLS =============
+    path('subscribe', include('apps.newsletter.urls', namespace='subscribers')),
 
     # ============= AUTH URLS  =============
     path('auth/', include('apps.authentication.urls')),

@@ -5,5 +5,6 @@ from apps.coupons.models import Coupon
 
 @admin.register(Coupon)
 class CouponAdmin(admin.ModelAdmin):
-    pass
+    def has_change_permission(self, request, obj=None):
+        return False
 

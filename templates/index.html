@@ -73,31 +73,16 @@
 
     <!-- Featured Start -->
     <div class="container-fluid pt-5">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">OUR SERVICES </span></h2>
         <div class="row px-xl-5 pb-3">
+            {% for service in services %}
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                    <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+                    <img style="width: 50px;height: 50px" src="{{ service.icon.url }}" alt="">
+                    <h5 class="font-weight-semi-bold m-0">{{ service.name }}</h5>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                    <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
-                    <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                    <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                    <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
     <!-- Featured End -->
@@ -127,59 +112,59 @@
     <!-- Categories End -->
 
 
-    <!-- Products Start -->
-    <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
-        <div class="row px-xl-5">
-            {% for category in categories %}
-            	<div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img style="border-radius: 20%;height: 200px" class="img-fluid w-100" src="{{ category.products.first.main_image.url }}" alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href="{% url 'carts:create_cart' category.products.first.id %}">
-                                    {% if category.products.first.id in request.session.user_cart %}
-                                        <a href="{% url 'carts:delete_cart' category.products.first.id %}">
-                                        <i style="color: yellow" class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                        </a>
-                                    {% else %}
-                                        <i style="color: white" class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    {% endif %}
-                                </a>
-                                <a class="btn btn-outline-dark btn-square" href="{% url 'wishlists:wishlist_create' product_id=category.products.first.id %}">
-                                    {% if category.products.first.id in user_wishlist %}
-                                        <a href="{% url 'wishlists:delete_wishlist' category.products.first.id %}">
-                                        <i style="color: yellow" class="fa fa-heart" aria-hidden="true"></i>
-                                        </a>
-                                    {% else %}
-                                        <i style="color: white" class="far fa-heart" aria-hidden="true"></i>
-                                    {% endif %}
-                                </a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i
-                                        class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href="{% url 'products:detail-page' pk=category.products.first.pk %}"><i class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">{{ category.products.first.title }}</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$ {{ category.products.first.price }}</h5><h6 class="text-muted ml-2"><del>$ {{ category.products.first.old_price }}</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                {% decimal_to_range category.products.first.avg_rating as SS %}
-                                {% for rating in SS %}
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                {% endfor %}
-                                <small>({{ category.products.first.avg_rating|floatformat:'0' }})</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-
-        </div>
-    </div>
-    <!-- Products End -->
+{#    <!-- Products Start -->#}
+{#    <div class="container-fluid pt-5 pb-3">#}
+{#        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>#}
+{#        <div class="row px-xl-5">#}
+{#            {% for category in categories %}#}
+{#            	<div class="col-lg-3 col-md-4 col-sm-6 pb-1">#}
+{#                    <div class="product-item bg-light mb-4">#}
+{#                        <div class="product-img position-relative overflow-hidden">#}
+{#                            <img style="border-radius: 20%;height: 200px" class="img-fluid w-100" src="{{ category.products.first.main_image.url }}" alt="">#}
+{#                            <div class="product-action">#}
+{#                                <a class="btn btn-outline-dark btn-square" href="{% url 'carts:create_cart' category.products.first.id %}">#}
+{#                                    {% if category.products.first.id in request.session.user_cart %}#}
+{#                                        <a href="{% url 'carts:delete_cart' category.products.first.id %}">#}
+{#                                        <i style="color: yellow" class="fa fa-shopping-cart" aria-hidden="true"></i>#}
+{#                                        </a>#}
+{#                                    {% else %}#}
+{#                                        <i style="color: white" class="fa fa-shopping-cart" aria-hidden="true"></i>#}
+{#                                    {% endif %}#}
+{#                                </a>#}
+{#                                <a class="btn btn-outline-dark btn-square" href="{% url 'wishlists:wishlist_create' product_id=category.products.first.id %}">#}
+{#                                    {% if category.products.first.id in user_wishlist %}#}
+{#                                        <a href="{% url 'wishlists:delete_wishlist' category.products.first.id %}">#}
+{#                                        <i style="color: yellow" class="fa fa-heart" aria-hidden="true"></i>#}
+{#                                        </a>#}
+{#                                    {% else %}#}
+{#                                        <i style="color: white" class="far fa-heart" aria-hidden="true"></i>#}
+{#                                    {% endif %}#}
+{#                                </a>#}
+{#                                <a class="btn btn-outline-dark btn-square" href=""><i#}
+{#                                        class="fa fa-sync-alt"></i></a>#}
+{#                                <a class="btn btn-outline-dark btn-square" href="{% url 'products:detail-page' pk=category.products.first.pk %}"><i class="fa fa-search"></i></a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="text-center py-4">#}
+{#                            <a class="h6 text-decoration-none text-truncate" href="">{{ category.products.first.title }}</a>#}
+{#                            <div class="d-flex align-items-center justify-content-center mt-2">#}
+{#                                <h5>$ {{ category.products.first.price }}</h5><h6 class="text-muted ml-2"><del>$ {{ category.products.first.old_price }}</del></h6>#}
+{#                            </div>#}
+{#                            <div class="d-flex align-items-center justify-content-center mb-1">#}
+{#                                {% decimal_to_range category.products.first.avg_rating as SS %}#}
+{#                                {% for rating in SS %}#}
+{#                                    <small class="fa fa-star text-primary mr-1"></small>#}
+{#                                {% endfor %}#}
+{#                                <small>({{ category.products.first.avg_rating|floatformat:'0' }})</small>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- Products End -->#}
 
 {##}
 {#    <!-- Offer Start -->#}
@@ -210,59 +195,59 @@
 {#    <!-- Offer End -->#}
 
 
-    <!-- Products Start -->
-    <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>
-        <div class="row px-xl-5">
-            {% for category in categories %}
-            	<div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img style="border-radius: 20%;height: 200px" class="img-fluid w-100" src="{{ category.products.last.main_image.url }}" alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href="{% url 'carts:create_cart' category.products.last.id %}">
-                                    {% if category.products.last.id in request.session.user_cart %}
-                                        <a href="{% url 'carts:delete_cart' category.products.last.id %}">
-                                        <i style="color: yellow" class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                        </a>
-                                    {% else %}
-                                        <i style="color: white" class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    {% endif %}
-                                </a>
-                                <a class="btn btn-outline-dark btn-square" href="{% url 'wishlists:wishlist_create' product_id=category.products.last.id %}">
-                                    {% if category.products.last.id in user_wishlist %}
-                                        <a href="{% url 'wishlists:delete_wishlist' category.products.last.id %}">
-                                        <i style="color: yellow" class="fa fa-heart" aria-hidden="true"></i>
-                                        </a>
-                                    {% else %}
-                                        <i style="color: white" class="far fa-heart" aria-hidden="true"></i>
-                                    {% endif %}
-                                </a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i
-                                        class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href="{% url 'products:detail-page' pk=category.products.last.pk %}"><i class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">{{ category.products.last.title }}</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$ {{ category.products.last.price }}</h5><h6 class="text-muted ml-2"><del>$ {{ category.products.last.old_price }}</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                {% decimal_to_range category.products.last.avg_rating as SS %}
-                                {% for rating in SS %}
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                {% endfor %}
-                                <small>({{ category.products.last.avg_rating|floatformat:'0' }})</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-
-        </div>
-    </div>
-    <!-- Products End -->
+{#    <!-- Products Start -->#}
+{#    <div class="container-fluid pt-5 pb-3">#}
+{#        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>#}
+{#        <div class="row px-xl-5">#}
+{#            {% for category in categories %}#}
+{#            	<div class="col-lg-3 col-md-4 col-sm-6 pb-1">#}
+{#                    <div class="product-item bg-light mb-4">#}
+{#                        <div class="product-img position-relative overflow-hidden">#}
+{#                            <img style="border-radius: 20%;height: 200px" class="img-fluid w-100" src="{{ category.products.last.main_image.url }}" alt="">#}
+{#                            <div class="product-action">#}
+{#                                <a class="btn btn-outline-dark btn-square" href="{% url 'carts:create_cart' category.products.last.id %}">#}
+{#                                    {% if category.products.last.id in request.session.user_cart %}#}
+{#                                        <a href="{% url 'carts:delete_cart' category.products.last.id %}">#}
+{#                                        <i style="color: yellow" class="fa fa-shopping-cart" aria-hidden="true"></i>#}
+{#                                        </a>#}
+{#                                    {% else %}#}
+{#                                        <i style="color: white" class="fa fa-shopping-cart" aria-hidden="true"></i>#}
+{#                                    {% endif %}#}
+{#                                </a>#}
+{#                                <a class="btn btn-outline-dark btn-square" href="{% url 'wishlists:wishlist_create' product_id=category.products.last.id %}">#}
+{#                                    {% if category.products.last.id in user_wishlist %}#}
+{#                                        <a href="{% url 'wishlists:delete_wishlist' category.products.last.id %}">#}
+{#                                        <i style="color: yellow" class="fa fa-heart" aria-hidden="true"></i>#}
+{#                                        </a>#}
+{#                                    {% else %}#}
+{#                                        <i style="color: white" class="far fa-heart" aria-hidden="true"></i>#}
+{#                                    {% endif %}#}
+{#                                </a>#}
+{#                                <a class="btn btn-outline-dark btn-square" href=""><i#}
+{#                                        class="fa fa-sync-alt"></i></a>#}
+{#                                <a class="btn btn-outline-dark btn-square" href="{% url 'products:detail-page' pk=category.products.last.pk %}"><i class="fa fa-search"></i></a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="text-center py-4">#}
+{#                            <a class="h6 text-decoration-none text-truncate" href="">{{ category.products.last.title }}</a>#}
+{#                            <div class="d-flex align-items-center justify-content-center mt-2">#}
+{#                                <h5>$ {{ category.products.last.price }}</h5><h6 class="text-muted ml-2"><del>$ {{ category.products.last.old_price }}</del></h6>#}
+{#                            </div>#}
+{#                            <div class="d-flex align-items-center justify-content-center mb-1">#}
+{#                                {% decimal_to_range category.products.last.avg_rating as SS %}#}
+{#                                {% for rating in SS %}#}
+{#                                    <small class="fa fa-star text-primary mr-1"></small>#}
+{#                                {% endfor %}#}
+{#                                <small>({{ category.products.last.avg_rating|floatformat:'0' }})</small>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- Products End -->#}
 
 
     <!-- Vendor Start -->

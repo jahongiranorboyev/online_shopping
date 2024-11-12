@@ -12,4 +12,3 @@ def cart_post_delete_or_save(instance, **kwargs):
                        'total_quantity'] or 0
     instance.user.user_cart_count = quantity_sum
     instance.user.save()
-    print(instance.user.user_cart_count)

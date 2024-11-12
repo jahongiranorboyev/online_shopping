@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import requests
 from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import  MaxValueValidator
 from django.db import models
 from django.utils.timezone import now
 from django.core.cache import cache
@@ -25,22 +25,14 @@ class General(models.Model):
     phone = models.CharField(max_length=13, validators=[check_uzb_number], help_text="UZB Number +998123456789")
 
     logo = models.ImageField(upload_to="general/logo/image/%Y/%m/%d/")
-    cart_shipping_percent = models.DecimalField(
-        max_digits=3,
-        decimal_places=0,
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-    )
+    shipping_percent = models.PositiveSmallIntegerField(default=0, validators=[MaxValueValidator(100)])
 
     class Meta:
         verbose_name = "General"
         verbose_name_plural = "General"
 
-    def save(self, *args, **kwargs):
-        self.cart_shipping_percent = Decimal(self.cart_shipping_percent)
-        super().save(*args, **kwargs)
-
     def clean(self):
-        if self.pk and General.objects.exists():
+        if not  self.pk and General.objects.exists():
             raise ValidationError('Unique')
 
     def __str__(self):
@@ -83,3 +75,8 @@ class CurrencyAmount(models.Model):
 
     class Meta:
         unique_together = (('currency', 'date'),)
+
+class PaymentMethod(models.Model):
+    name = models.CharField(max_length=120)
+    def __str__(self):
+        return self.name

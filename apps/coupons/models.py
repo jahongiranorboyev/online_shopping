@@ -1,3 +1,5 @@
+
+
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -7,10 +9,8 @@ class Coupon(models.Model):
     code = models.CharField(max_length=10, unique=True)
     start_date = models.DateField(auto_now_add=True)
     end_date = models.DateField()
-    discount_percent = models.DecimalField(
-        max_digits=3,
-        decimal_places=0,
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
+    discount_percent = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(100)]
     )
 
 

@@ -40,6 +40,12 @@ class CustomUser(AbstractUser):
         blank=True,
         null=True
     )
+    #===========extra fields ==============
+    phone_number = models.CharField(max_length=13, unique=True,blank=True,null=True)
+    address = models.CharField(max_length=100, blank=True)
+    region = models.CharField(max_length=100, blank=True)
+    district = models.CharField(max_length=100, blank=True)
+    zip_code = models.CharField(max_length=10, blank=True)
 
     objects = CustomUserManager()
 

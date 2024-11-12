@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-04 14:48+0500\n"
+"POT-Creation-Date: 2024-11-10 13:41+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,6 +48,18 @@ msgstr ""
 msgid "language"
 msgstr ""
 
+#: apps/users/admin.py:14
+msgid "Personal info"
+msgstr ""
+
+#: apps/users/admin.py:28
+msgid "Permissions"
+msgstr ""
+
+#: apps/users/admin.py:39
+msgid "Important dates"
+msgstr ""
+
 #: config/settings/translation.py:15
 msgid "Uzbek"
 msgstr ""
@@ -60,55 +72,49 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
-#: templates/bases/basic.html:37
+#: templates/bases/basic.html:39 templates/bases/basic.html:197
 msgid "About"
 msgstr "Oколо"
 
-#: templates/bases/basic.html:38 templates/bases/basic.html:194
+#: templates/bases/basic.html:40 templates/bases/basic.html:195
 msgid "Contact"
 msgstr "Контакт"
 
-#: templates/bases/basic.html:39
+#: templates/bases/basic.html:41
 msgid "Help"
 msgstr "Помощь"
 
-#: templates/bases/basic.html:55
+#: templates/bases/basic.html:57
 msgid "Log out"
 msgstr "выйти"
 
-#: templates/bases/basic.html:59
+#: templates/bases/basic.html:61
 msgid "Sign in"
 msgstr "Войти"
 
-#: templates/bases/basic.html:63
+#: templates/bases/basic.html:65
 msgid "Sign up"
 msgstr "Зарегистрироваться"
 
-#: templates/bases/basic.html:113
+#: templates/bases/basic.html:128
 msgid "Search for products"
 msgstr "Поискa"
 
-#: templates/bases/basic.html:135
+#: templates/bases/basic.html:151
 msgid "Categories"
 msgstr "Категории"
 
-#: templates/bases/basic.html:177
+#: templates/bases/basic.html:191
 msgid "Home"
 msgstr "Основной"
 
-#: templates/bases/basic.html:179
+#: templates/bases/basic.html:193
 msgid "Shop"
 msgstr "Магазин"
 
-#: templates/bases/basic.html:183
-msgid "Pages"
-msgstr "Страницы"
-
-#: templates/bases/basic.html:189
-msgid "Checkout"
+#: templates/bases/basic.html:263
+msgid "Введите свой адрес электронной почты, если вы хотите получать уведомления о новых продуктах на сайте"
 msgstr ""
-
-
 
 #: venv/lib/python3.10/site-packages/IPython/core/tests/test_completer.py:434
 msgid "open('foo"
@@ -1412,3 +1418,6 @@ msgstr ""
 #: venv/lib/python3.10/site-packages/modeltranslation/widgets.py:32
 msgid "None"
 msgstr ""
+
+#~ msgid "Pages"
+#~ msgstr "Страницы"

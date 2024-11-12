@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import F, Sum
@@ -9,10 +7,16 @@ from datetime import datetime
 
 from apps.cart.models import Cart
 from apps.coupons.models import UsedCoupon
+from apps.general.models import General
 
 
 @login_required(login_url=settings.LOGIN_URL)
 def cart(request: WSGIRequest):
+    try:
+        shipping_percent = General.objects.first().shipping_percent
+    except AttributeError:
+        shipping_percent = 0
+
     user = request.user
     code = request.session.get('coupon_data', {}).get('code')
     coupon_data = request.session.get('coupon_data')
@@ -36,8 +40,12 @@ def cart(request: WSGIRequest):
 
     context = {
         'user_carts': queryset,
-        'cart_total_price': queryset.aggregate(Sum('total_quantity'))['total_quantity__sum']
+        'shipping_percent': shipping_percent,
+        'cart_total_price': queryset.aggregate(Sum('total_quantity', default=0))['total_quantity__sum']
     }
+    coupon_discount_percent = request.session.get('coupon_data', {}).get('discount_percent', 0)
+    total_cart = sum([cart.quantity * cart.product.price for cart in queryset])
+    context['total_price'] = total_cart + total_cart * shipping_percent / 100 - total_cart * coupon_discount_percent / 100
 
     return render(request=request, template_name='cart.html', context=context)
 

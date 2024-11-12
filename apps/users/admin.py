@@ -19,8 +19,11 @@ class CustomUserAdmin(UserAdmin):
                     "user_wishlist_count",
                     "user_cart_count",
                     "user_image",
-
-
+                    "phone_number",
+                    "address",
+                    "region",
+                    "district",
+                    "zip_code"
                 )
             }
         ),

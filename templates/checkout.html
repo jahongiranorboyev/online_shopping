@@ -1,5 +1,6 @@
 {% extends 'bases/basic.html' %}
 {% load static %}
+{% load product_tags %}
 {% block content %}
 
     <!-- Breadcrumb Start -->
@@ -9,62 +10,13 @@
 
     <!-- Checkout Start -->
     <div class="container-fluid">
+        <form action="{% url 'checkouts:create-order' %}" method="post">
+        {% csrf_token %}
         <div class="row px-xl-5">
             <div class="col-lg-8">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Billing Address</span></h5>
                 <div class="bg-light p-30 mb-5">
                     <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" placeholder="John">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Last Name</label>
-                            <input class="form-control" type="text" placeholder="Doe">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>E-mail</label>
-                            <input class="form-control" type="text" placeholder="example@email.com">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Mobile No</label>
-                            <input class="form-control" type="text" placeholder="+123 456 789">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 1</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Country</label>
-                            <select class="custom-select">
-                                <option selected>United States</option>
-                                <option>Afghanistan</option>
-                                <option>Albania</option>
-                                <option>Algeria</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>City</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>State</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>ZIP Code</label>
-                            <input class="form-control" type="text" placeholder="123">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="newaccount">
-                                <label class="custom-control-label" for="newaccount">Create an account</label>
-                            </div>
-                        </div>
                         <div class="col-md-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="shipto">
@@ -79,49 +31,43 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label>First Name</label>
-                                <input class="form-control" type="text" placeholder="John">
+                                <input name="first_name" value="{{ user.first_name }}" class="form-control" type="text" placeholder="{{ user.first_name }}">
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Last Name</label>
-                                <input class="form-control" type="text" placeholder="Doe">
+                                <input name="last_name" value="{{ user.last_name }}" class="form-control" type="text" placeholder="{{ user.last_name }}">
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>E-mail</label>
-                                <input class="form-control" type="text" placeholder="example@email.com">
+                                <input name="email" value="{{ user.email }}" class="form-control" type="text" placeholder="example@email.com">
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Mobile No</label>
-                                <input class="form-control" type="text" placeholder="+123 456 789">
+                                <input name="phone_number" value="{{ user.phone_number }}" class="form-control" type="text" placeholder="+123 456 789">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>Address Line 1</label>
-                                <input class="form-control" type="text" placeholder="123 Street">
+                                <label>Address</label>
+                                <input name="address" value="{{ user.address }}" class="form-control" type="text" placeholder="123 Street">
                             </div>
-                            <div class="col-md-6 form-group">
-                                <label>Address Line 2</label>
-                                <input class="form-control" type="text" placeholder="123 Street">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>Country</label>
-                                <select class="custom-select">
-                                    <option selected>United States</option>
-                                    <option>Afghanistan</option>
-                                    <option>Albania</option>
-                                    <option>Algeria</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>City</label>
-                                <input class="form-control" type="text" placeholder="New York">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>State</label>
-                                <input class="form-control" type="text" placeholder="New York">
-                            </div>
-                            <div class="col-md-6 form-group">
+                             <div class="col-md-6 form-group">
                                 <label>ZIP Code</label>
-                                <input class="form-control" type="text" placeholder="123">
+                                <input name="zip_code" value="{{ user.zip_code }}" class="form-control" type="text" placeholder="123">
+                            </div>  
+                            <div class="col-md-6 form-group">
+                                <label>Region</label>
+                                <input name="region" value="{{ user.region }}" class="form-control" type="text" placeholder="123">
+{#                                <select class="custom-select">#}
+{#                                    <option selected>United States</option>#}
+{#                                    <option>Afghanistan</option>#}
+{#                                    <option>Albania</option>#}
+{#                                    <option>Algeria</option>#}
+{#                                </select>#}
                             </div>
+                            <div class="col-md-6 form-group">
+                                <label>District</label>
+                                <input name="district" value="{{ user.district }}" class="form-control" type="text" placeholder="New York">
+                            </div>
+                            <input name="shipping_percent" value="{{ general.shipping_percent }}" class="form-control" type="hidden" placeholder="New York">
                         </div>
                     </div>
                 </div>
@@ -131,63 +77,58 @@
                 <div class="bg-light p-30 mb-5">
                     <div class="border-bottom">
                         <h6 class="mb-3">Products</h6>
-                        <div class="d-flex justify-content-between">
-                            <p>Product Name 1</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Product Name 2</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Product Name 3</p>
-                            <p>$150</p>
-                        </div>
+                        {% for cart in carts %}
+                        	<div class="d-flex justify-content-between">
+                                <p>{{ cart.product.title|truncatechars:"30" }}</p>
+                                <p>{{ cart.quantity }} x {% get_price_by_currency currency cart.product.price %} {{ currency }}</p>
+                            </div>
+                        {% endfor %}
                     </div>
                     <div class="border-bottom pt-3 pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>$150</h6>
+                            <h6>$ {% get_price_by_currency currency total_cart %} {{ currency }}</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">{{ shipping_percent }} %</h6>
                         </div>
+                         {% if request.session.coupon_data.discount_percent %}
+                        	<div class="d-flex justify-content-between">
+                                <h6 class="font-weight-medium">Coupon</h6>
+                                <h6 class="font-weight-medium"> - {{ request.session.coupon_data.discount_percent }} % </h6>
+                            </div>
+                        {% endif %} 
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>$160</h5>
+                            <h5>$ {% get_price_by_currency currency total_sum %} {{ currency }}</h5>
                         </div>
                     </div>
                 </div>
+                {% for message in messages %}
+                    <p style="color: {% if message.level == 40 %} red {% else %} green {% endif %}">{{ message }}</p>
+                {% endfor %}
                 <div class="mb-5">
                     <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
                     <div class="bg-light p-30">
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                <label class="custom-control-label" for="paypal">Paypal</label>
+                        {% for payment_method in payment_methods %}
+                        	<div class="form-group">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" checked value="{{ payment_method.pk }}" class="custom-control-input" name="payment_method" id="{{ payment_method.pk }}">
+                                    <label class="custom-control-label" for="{{ payment_method.pk }}">{{ payment_method.name }}</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                <label class="custom-control-label" for="directcheck">Direct Check</label>
-                            </div>
-                        </div>
-                        <div class="form-group mb-4">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
-                            </div>
-                        </div>
+                        {% endfor %}
                         <button class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
     </div>
+   
     <!-- Checkout End -->
 
 
