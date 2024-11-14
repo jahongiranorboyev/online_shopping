@@ -21,9 +21,9 @@ def checkout(request):
         shipping_percent = General.objects.first().shipping_percent
     except AttributeError:
         shipping_percent = 0
-    coupon_discount_percent = request.session.get('coupon_data',{}).get('discount_percent',0)
+    coupon_discount_percent = request.session.get('coupon_data', {}).get('discount_percent', 0)
     total_cart = sum([cart.quantity * cart.product.price for cart in carts])
-    total_sum =  total_cart + total_cart * shipping_percent /100 - total_cart * coupon_discount_percent / 100
+    total_sum = total_cart + total_cart * shipping_percent / 100 - total_cart * coupon_discount_percent / 100
     payment_methods = PaymentMethod.objects.order_by('name')
 
     context = {
@@ -33,36 +33,35 @@ def checkout(request):
         'total_sum': total_sum,
         'total_cart': total_cart,
         'payment_methods': payment_methods,
-        }
+    }
     return render(request=request, template_name='checkout.html', context=context)
-
 
 @login_required
 @transaction.atomic
 def create_order(request):
+    print(request.POST)
     carts = Cart.objects.filter(user=request.user).select_related('product')
+    order_form = OrderForm(data=request.POST)
 
-    request_data = OrderForm(data=request.POST)
-    if request_data.is_valid():
-        order=Order.objects.create(
-            user=request.user,
-            payment_method=request_data.payment_method,
-            total_price=sum([cart.quantity * cart.product.price for cart in carts]),
-            delivery_price=General.objects.first().shipping_percent,
-            is_paid=False,
-            coupon_id=request.session.get('coupon_data',{}).get('coupon.pk',0),
-             )
+    if order_form.is_valid():
+        # Save the order object
+        order = order_form.save(commit=False)
+        order.user = request.POST['user']
+        order.total_price = request.POST['total_price']
+        order.delivery_price = request.session['delivery_price']
+        order.coupon = request.POST['coupon']
+        order.save()
 
+        # Loop through items in the cart to create OrderProducts
+        for cart_item in carts:
+            OrderProducts.objects.create(
+                order=order,
+                product=cart_item.product,
+                quantity=cart_item.quantity
+            )
 
-        order_product=OrderProducts.objects.create(order=order.pk)
-        for cart in carts:
-            order_product.product_id = cart.product.pk,
-            order_product.price = cart.product.price,
-            OrderProducts.save(order_product)
         messages.success(request, 'Your order has been created.')
     else:
-        messages.error(request,request_data.errors)
-        return redirect('checkouts:checkout')
-
+        messages.error(request, order_form.errors)
 
     return redirect('checkouts:checkout')

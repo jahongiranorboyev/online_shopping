@@ -9,6 +9,7 @@ from django.utils import timezone
 
 from apps.cart.models import Cart
 from apps.comments.models import ProductComment
+from apps.features.models import Feature
 from apps.products.models import Product
 from apps.wishlist.models import Wishlist
 
@@ -64,8 +65,9 @@ def product_list(request: WSGIRequest) -> HttpResponse:
     search_text = request.session.get('search_text', None)
     cat_id = request.session.get('cat_id', None)
     queryset = Product.objects.order_by('-pk')
-
+    features = []
     if cat_id:
+        features = Feature.objects.filter(category_id=cat_id).prefetch_related('feature_values')
         queryset = queryset.filter(Q(category_id=cat_id) | Q(category__parent_id=cat_id))
 
     if search_text:
@@ -114,5 +116,6 @@ def product_list(request: WSGIRequest) -> HttpResponse:
         'page': 'shop',
         'user_wishlist': user_wishlist,
         'user_cart': user_cart,
+        'features': features,
     }
     return render(request=request, template_name='shop.html', context=context)

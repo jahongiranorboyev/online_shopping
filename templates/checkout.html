@@ -67,7 +67,7 @@
                                 <label>District</label>
                                 <input name="district" value="{{ user.district }}" class="form-control" type="text" placeholder="New York">
                             </div>
-                            <input name="shipping_percent" value="{{ general.shipping_percent }}" class="form-control" type="hidden" placeholder="New York">
+                            <input name="delivery_price" value="{{ general.shipping_percent }}" class="form-control" type="hidden" placeholder="New York">
                         </div>
                     </div>
                 </div>
@@ -126,6 +126,9 @@
                 </div>
             </div>
         </div>
+            <input type="hidden" name="total_price" value="{{ total_sum }}">
+            <input type="hidden" name="coupon" value="{{ request.session.coupon_data.pk }}">
+        
         </form>
     </div>
    
