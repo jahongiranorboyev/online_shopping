@@ -12,6 +12,15 @@ from apps.general.models import General
 
 @login_required(login_url=settings.LOGIN_URL)
 def cart(request: WSGIRequest):
+    """
+    Displays the user's shopping cart, including the total price, shipping, and coupon discounts.
+
+    Args:
+        request (WSGIRequest): The incoming HTTP request.
+
+    Returns:
+        HttpResponse: Rendered 'cart.html' template with context data for the user's cart.
+    """
     try:
         shipping_percent = General.objects.first().shipping_percent
     except AttributeError:
@@ -52,21 +61,51 @@ def cart(request: WSGIRequest):
 
 @login_required(login_url=settings.LOGIN_URL)
 def create_cart(request: WSGIRequest, product_id: int):
+    """
+    Adds a product to the user's cart, updating the quantity if it already exists.
+
+    Args:
+        request (WSGIRequest): The incoming HTTP request.
+        product_id (int): The ID of the product to add to the cart.
+
+    Returns:
+        HttpResponseRedirect: Redirects back to the previous page.
+    """
     quantity = request.POST.get('cart_quantity', 1)
     obj, created = Cart.objects.get_or_create(user=request.user, product_id=product_id)
-    if obj.quantity != quantity:
-        obj.quantity = quantity
+    if obj.quantity != int(quantity):
+        obj.quantity = int(quantity)
         obj.save()
 
     return redirect(request.META['HTTP_REFERER'])
 
 
 def delete_cart(request: WSGIRequest, product_id: int) -> None:
+    """
+    Deletes a product from the user's cart.
+
+    Args:
+        request (WSGIRequest): The incoming HTTP request.
+        product_id (int): The ID of the product to remove from the cart.
+
+    Returns:
+        HttpResponseRedirect: Redirects back to the previous page.
+    """
     Cart.objects.filter(product_id=product_id).delete()
     return redirect(request.META['HTTP_REFERER'])
 
 
-def set_cart_quantity(request, user_cart_id: int) -> None:
+def set_cart_quantity(request: WSGIRequest, user_cart_id: int) -> None:
+    """
+    Updates the quantity of a product in the user's cart or deletes it if quantity is zero or invalid.
+
+    Args:
+        request (WSGIRequest): The incoming HTTP request.
+        user_cart_id (int): The ID of the cart item to update.
+
+    Returns:
+        HttpResponseRedirect: Redirects back to the previous page or 404 page if method is GET.
+    """
     if request.method == 'GET':
         return redirect('404-page')
 
@@ -77,6 +116,7 @@ def set_cart_quantity(request, user_cart_id: int) -> None:
     if quantity.isdigit() and int(quantity) <= 0:
         cart_obj.delete()
     else:
-        cart_obj.quantity = quantity
+        cart_obj.quantity = int(quantity)
         cart_obj.save()
+
     return redirect(request.META['HTTP_REFERER'])

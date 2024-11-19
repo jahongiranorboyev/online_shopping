@@ -8,5 +8,4 @@ def about(request):
         'about': About.objects.first(),
         'page': 'about'
     }
-    return render(request, 'about.html',context)
-
+    return render(request, 'about.html', context)

@@ -261,9 +261,6 @@
                 <div class="col-md-4 mb-5">
                     <h5 class="text-secondary text-uppercase mb-4">Newsletter</h5>
                     <p>{% translate 'Enter your email address If you want to be notified about new products on the site' %}</p>
-                    {% for message in messages %}
-                        <p style="color: {% if message.level == 25 %} green {% endif %};">{{ message }}</p>
-                    {% endfor %}
                     <form action="{% url 'subscribers:subscribe' %}" method='post'>
                         {% csrf_token %}
                         <div class="input-group">

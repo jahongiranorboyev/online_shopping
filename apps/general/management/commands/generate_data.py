@@ -47,10 +47,7 @@ class Command(BaseCommand):
                 name=fake.first_name(),
                 image=os.path.join(django_filename, image_name)
             )
-            Manufacturer.objects.create(
-                name=fake.first_name(),
-                image=os.path.join(django_filename, image_name)
-            )
+
 
             #============children Category===========
             if cat_i %2 :

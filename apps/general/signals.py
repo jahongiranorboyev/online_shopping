@@ -6,6 +6,14 @@ from django.db.models import ImageField, FileField
 
 @receiver((post_delete, pre_save))
 def delete_related_files(instance, sender, **kwargs):
+    """
+    Deletes related files when an instance is deleted or updated.
+
+    Args:
+        instance (Model instance): The model instance being saved or deleted.
+        sender (Model class): The model class that triggered the signal.
+        kwargs (dict): Additional keyword arguments passed by the signal.
+    """
     for field in sender._meta.get_fields():
         if isinstance(field, (ImageField, FileField)):
             file = getattr(instance, field.name)
@@ -21,4 +29,5 @@ def delete_related_files(instance, sender, **kwargs):
                         old_file = getattr(old_instance, field.name)
                         if old_file and old_file != file and os.path.exists(old_file.path):
                             os.remove(old_file.path)
+
 
