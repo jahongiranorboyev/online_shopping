@@ -78,3 +78,5 @@ urlpatterns += i18n_patterns(
     path('404/', page_404, name='404-page'),
 
 )
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
